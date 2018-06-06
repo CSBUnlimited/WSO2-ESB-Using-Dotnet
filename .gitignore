@@ -1,24 +1,22 @@
 
 
 ### Services ###
-Services/.vs/*
-Services/.vscode/*
+/Services/.vs/*
+/Services/.vscode/*
 
-Services/DialogBilling/bin/*
-Services/DialogBilling/obj/*
-Services/DialogBilling/DialogBilling.db
+/Services/DialogBilling/bin/*
+/Services/DialogBilling/obj/*
+/Services/DialogBilling/DialogBilling.db
 
-Services/FastFoodOnline/bin/*
-Services/FastFoodOnline/obj/*
-Services/FastFoodOnline/FastFoodOnline.db
+/Services/FastFoodOnline/bin/*
+/Services/FastFoodOnline/obj/*
+/Services/FastFoodOnline/FastFoodOnline.db
 
-Services/SampathBank/bin/*
-Services/SampathBank/obj/*
-Services/SampathBank/SampathBank.db
+/Services/SampathBank/bin/*
+/Services/SampathBank/obj/*
+/Services/SampathBank/SampathBank.db
 
 ### ClientApp ###
-ClientApp/.vs/*
-ClientApp/.vscode/*
-
-ClientApp/.vs/*
-ClientApp/node_modules/*
+/Client/.vs/*
+/Client/.vscode
+/Client/node_modules

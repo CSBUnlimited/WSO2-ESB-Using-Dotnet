@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,11 +7,12 @@ using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Payment;
 using FastFoodOnline.Resources.ViewModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class PaymentController : ControllerBase
@@ -29,6 +29,7 @@ namespace FastFoodOnline.Controllers
         /// Constructor
         /// </summary>
         /// <param name="paymentService">PaymentService</param>
+        /// <param name="authenticateService">AuthenticateService</param>
         /// <param name="mapper">Automapper</param>
         public PaymentController(IPaymentService paymentService, IAuthenticateService authenticateService, IMapper mapper)
         {

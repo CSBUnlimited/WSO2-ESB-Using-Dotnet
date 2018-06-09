@@ -2,6 +2,7 @@
 using AutoMapper;
 using FastFoodOnline.Configurations;
 using FastFoodOnline.DataAccess.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,19 @@ namespace FastFoodOnline
             //Dependancy Injection
             services.RegisterDependancies();
 
+            // Add Authentication Services
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://csbunlimited.auth0.com/";
+                options.Audience = "https://api.fastfoodinine.lk";
+            });
+
+
             // Add MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -71,6 +85,9 @@ namespace FastFoodOnline
 
             // Access-Control-Allow-Origin
             app.UseCors("AllowAll");
+
+            // Enable authentication middleware
+            app.UseAuthentication();
 
             // Add MVC
             app.UseMvc();

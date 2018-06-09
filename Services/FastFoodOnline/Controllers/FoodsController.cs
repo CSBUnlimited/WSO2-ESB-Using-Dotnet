@@ -7,10 +7,12 @@ using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Food;
 using FastFoodOnline.Resources.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class FoodController : ControllerBase

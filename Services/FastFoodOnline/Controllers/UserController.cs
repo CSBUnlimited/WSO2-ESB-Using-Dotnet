@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
-using FastFoodOnline.Resources.DTOs.Login;
 using FastFoodOnline.Resources.DTOs.User;
 using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
@@ -20,8 +21,8 @@ namespace FastFoodOnline.Controllers
     {
         #region Private Properties
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserService _userService;
-        private readonly IAuthenticateService _authenticateService;
         private readonly IMapper _mapper;
 
         #endregion
@@ -29,13 +30,13 @@ namespace FastFoodOnline.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="userService">UserService</param>
-        /// <param name="authenticateService">AuthenticateService</param>
         /// <param name="mapper">Automapper</param>
-        public UserController(IUserService userService, IAuthenticateService authenticateService, IMapper mapper)
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper)
         {
+            _httpContextAccessor = httpContextAccessor;
             _userService = userService;
-            _authenticateService = authenticateService;
             _mapper = mapper;
         }
 
@@ -76,6 +77,13 @@ namespace FastFoodOnline.Controllers
 
             try
             {
+                string usernameByToken = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                if (!usernameByToken.Equals(username, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    //need change
+                }
+
                 User user = await _userService.GetUserByUsernameAsync(username);
 
                 if (user == null || user.Id <= 0)
@@ -85,62 +93,14 @@ namespace FastFoodOnline.Controllers
                 else
                 {
                     userResponse.UserViewModels = new List<UserViewModel>()
-                        {
-                            _mapper.Map<User, UserViewModel>(user)
-                        };
+                    {
+                        _mapper.Map<User, UserViewModel>(user)
+                    };
 
                     userResponse.Status = (int)HttpStatusCode.OK;
                 }
 
                 userResponse.IsSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                userResponse.Message = ex.Message;
-                userResponse.MessageDetails = ex.ToString();
-                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.Conflict;
-            }
-
-            return StatusCode(userResponse.Status, userResponse);
-        }
-
-        /// <summary>
-        /// Authenticate User Login - Async
-        /// </summary>
-        /// <param name="loginRequest">FromBody - LoginRequest</param>
-        /// <returns>UserResponse</returns>
-        [HttpPost(Name = "AuthenticateUserLoginAsync")]
-        public async Task<IActionResult> AuthenticateUserLoginAsync([FromBody]LoginRequest loginRequest)
-        {
-            UserResponse userResponse = new UserResponse();
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    // Can do better than this but for this assignment this is enough
-                    User user = await _authenticateService.AuthenticateUsernamePasswordAsync(loginRequest.Username, loginRequest.Password);
-
-                    if (user == null || user.Id <= 0)
-                    {
-                        userResponse.Status = (int)HttpStatusCode.Unauthorized;
-                        throw new Exception("Invalid username or password");
-                    }
-
-                    userResponse.UserViewModels = new List<UserViewModel>(1)
-                    {
-                        _mapper.Map<User, UserViewModel>(user)
-                    };
-
-                    userResponse.IsSuccess = true;
-                    userResponse.Status = (int)HttpStatusCode.OK;
-                }
-                else
-                {
-                    userResponse.Message = $"Model Error Count - { ModelState.ErrorCount }";
-                    userResponse.MessageDetails = ModelState.ToString();
-                    userResponse.Status = (int)HttpStatusCode.BadRequest;
-                }
             }
             catch (Exception ex)
             {

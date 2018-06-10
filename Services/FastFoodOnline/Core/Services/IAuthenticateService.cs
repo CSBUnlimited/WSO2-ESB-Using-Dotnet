@@ -7,11 +7,18 @@ namespace FastFoodOnline.Core.Services
     public interface IAuthenticateService : IBaseService
     {
         /// <summary>
-        /// Authenticate Username - Async
+        /// Genarate Token For User
+        /// </summary>
+        /// <param name="user">User Details</param>
+        /// <returns>Token String</returns>
+        string GenarateTokenForUser(User user);
+
+        /// <summary>
+        /// Check weather given username has reserved by another user - Async
         /// </summary>
         /// <param name="username">Username</param>
-        /// <returns>User</returns>
-        Task<User> AuthenticateUsernameAsync(string username);
+        /// <returns>If username is avalable then return True</returns>
+        Task<bool> AuthenticateUsernameAsync(string username);
 
         /// <summary>
         /// Authenticate Username and Password - Async
@@ -20,6 +27,14 @@ namespace FastFoodOnline.Core.Services
         /// <param name="username">Username</param>
         /// <param name="password">Plain text password</param>
         /// <returns>User</returns>
-        Task<User> AuthenticateUsernamePasswordAsync(string username, string password);
+        Task<User> LoginUserByUsernameAndPassword(string username, string password);
+
+        /// <summary>
+        /// Re
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<bool> RegisterUserAsync(User user, string password);
     }
 }

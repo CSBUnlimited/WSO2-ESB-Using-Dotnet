@@ -26,13 +26,5 @@ namespace FastFoodOnline.Core.DataAccess.Repositories
         /// <param name="username">Username</param>
         /// <returns>User</returns>
         Task<User> GetUserByUsernameAsync(string username);
-
-        /// <summary>
-        /// Get User B yUsername And Password - Async
-        /// </summary>
-        /// <param name="username">Username</param>
-        /// <param name="password">Encrypted Password</param>
-        /// <returns>User</returns>
-        Task<User> GetUserByUsernameAndPasswordAsync(string username, string password);
     }
 }

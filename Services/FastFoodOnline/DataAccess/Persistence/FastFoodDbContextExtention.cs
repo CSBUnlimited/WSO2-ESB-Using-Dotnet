@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using FastFoodOnline.Core.DataAccess.Repositories;
 using FastFoodOnline.Models;
-using FastFoodOnline.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Persistence
@@ -24,16 +27,36 @@ namespace FastFoodOnline.DataAccess.Persistence
             if (context.Users.Any())
                 return;
 
-            context.Users.AddRange
-            (
-                new User() { Username = "CSBUnlimited", Password = StringEncryptService.GetStringSha256Hash("user1"), FirstName = "Chathuranga", LastName = "Basnayake", Gender = Gender.Male, Email = "chathurangabasnayake@outlook.com", Mobile = "0778511690" },
-                new User() { Username = "user2", Password = StringEncryptService.GetStringSha256Hash("user2"), FirstName = "Harin", LastName = "Wijesekara", Gender = Gender.Male, Email = "harin.w@gmail.com", Mobile = "077xxxxxxx" },
-                new User() { Username = "user3", Password = StringEncryptService.GetStringSha256Hash("user3"), FirstName = "Heshani", LastName = "Nanayakkara", Gender = Gender.Female, Email = "heshnai.n@gmail.com", Mobile = "071xxxxxxx" },
-                new User() { Username = "user4", Password = StringEncryptService.GetStringSha256Hash("user4"), FirstName = "Pathmika", LastName = "Rajapakshe", Gender = Gender.Male, Email = "pathmika.r@outlook.com", Mobile = "076yyyyyyy" },
-                new User() { Username = "user5", Password = StringEncryptService.GetStringSha256Hash("user5"), FirstName = "Nikeshala", LastName = "Amarasinghe", Gender = Gender.Female, Email = "nikeshala.a@ymail.com", Mobile = "071yyyyyyy" },
-                new User() { Username = "user6", Password = StringEncryptService.GetStringSha256Hash("user6"), FirstName = "Samith", LastName = "Dilshan", Gender = Gender.Male, Email = "samith.d@gmail.com", Mobile = "077zzzzzzz" }
-            );
+            List<User> users = new List<User>()
+            {
+                new User() { FirstName = "Chathuranga", LastName = "Basnayake", Username = "CSBUnlimited", Gender = Gender.Male, Email = "chathurangabasnayake@outlook.com", Mobile = "0778511690" },
+                new User() { FirstName = "Harin", LastName = "Wijesekara", Username = "user2", Gender = Gender.Male, Email = "harin.w@gmail.com", Mobile = "077xxxxxxx" },
+                new User() { FirstName = "Heshani", LastName = "Nanayakkara", Username = "user3", Gender = Gender.Female, Email = "heshnai.n@gmail.com", Mobile = "071xxxxxxx" },
+                new User() { FirstName = "Pathmika", LastName = "Rajapakshe", Username = "user4", Gender = Gender.Male, Email = "pathmika.r@outlook.com", Mobile = "076yyyyyyy" },
+                new User() { FirstName = "Nikeshala", LastName = "Amarasinghe", Username = "user5", Gender = Gender.Female, Email = "nikeshala.a@ymail.com", Mobile = "071yyyyyyy" },
+                new User() { FirstName = "Samith", LastName = "Dilshan", Username = "user6", Gender = Gender.Male, Email = "samith.d@gmail.com", Mobile = "077zzzzzzz" }
+            };
 
+            
+            for (int ind = 0, usersCount = users.Count(); ind < usersCount; ind++)
+            {
+                byte[] passwordHash, passwordSalt;
+                string password = $"user{ (ind + 1) }";
+
+                using (var hmac = new System.Security.Cryptography.HMACSHA512())
+                {
+                    passwordSalt = hmac.Key;
+                    passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                }
+
+                User user = users[ind];
+
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+            }
+
+            context.Users.AddRange(users);
+            
             context.Foods.AddRange
             (
                 new Food() { Name = "Pizza", Price = 500 },

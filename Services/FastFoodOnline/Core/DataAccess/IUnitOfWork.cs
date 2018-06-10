@@ -12,8 +12,18 @@ namespace FastFoodOnline.Core.DataAccess
         IPaymentMethodRepository PaymentMethodRepository { get; }
         ISentEmailRepository SentEmailRepository { get; }
         ISentMessageRepository SentMessageRepository { get; }
+        IAuthorizationRepository AuthorizationRepository { get; }
 
-        Task<int> Complete();
-        Task<IDbContextTransaction> BeginTransaction();
+        /// <summary>
+        /// Same meaning as Save Chnages - Async
+        /// </summary>
+        /// <returns>Rows count affected</returns>
+        Task<int> CompleteAsync();
+
+        /// <summary>
+        /// Creating Transaction - Async
+        /// </summary>
+        /// <returns>IDbContextTransaction</returns>
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

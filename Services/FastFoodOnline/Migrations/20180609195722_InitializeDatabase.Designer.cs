@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastFoodOnline.Migrations
 {
     [DbContext(typeof(FastFoodDbContext))]
-    [Migration("20180606142734_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180609195722_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,9 +203,11 @@ namespace FastFoodOnline.Migrations
                         .IsFixedLength(true)
                         .HasMaxLength(10);
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired();
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired();
 
                     b.Property<DateTime>("RegisteredDate")
                         .ValueGeneratedOnAdd()

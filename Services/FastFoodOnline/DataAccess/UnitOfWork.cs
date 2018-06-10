@@ -10,6 +10,9 @@ namespace FastFoodOnline.DataAccess
     {
         #region Private Properties
 
+        /// <summary>
+        /// FastFood DbContext
+        /// </summary>
         private readonly FastFoodDbContext _fastFoodDbContext;
 
         #endregion
@@ -22,6 +25,7 @@ namespace FastFoodOnline.DataAccess
         public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ISentEmailRepository SentEmailRepository { get; }
         public ISentMessageRepository SentMessageRepository { get; }
+        public IAuthorizationRepository AuthorizationRepository { get; }
 
         #endregion
 
@@ -33,7 +37,8 @@ namespace FastFoodOnline.DataAccess
             IUserRepository userRepository,
             IPaymentMethodRepository paymentMethodRepository,
             ISentEmailRepository sentEmailRepository,
-            ISentMessageRepository sentMessageRepository
+            ISentMessageRepository sentMessageRepository,
+            IAuthorizationRepository authorizationRepository
         )
         {
             _fastFoodDbContext = fastFoodDbContext;
@@ -44,6 +49,7 @@ namespace FastFoodOnline.DataAccess
             PaymentMethodRepository = paymentMethodRepository;
             SentEmailRepository = sentEmailRepository;
             SentMessageRepository = sentMessageRepository;
+            AuthorizationRepository = authorizationRepository;
 
             //Setup the DbContext
             FoodRepository.DbContext = _fastFoodDbContext;
@@ -52,14 +58,23 @@ namespace FastFoodOnline.DataAccess
             PaymentMethodRepository.DbContext = _fastFoodDbContext;
             SentEmailRepository.DbContext = _fastFoodDbContext;
             SentMessageRepository.DbContext = _fastFoodDbContext;
+            AuthorizationRepository.DbContext = _fastFoodDbContext;
         }
 
-        public async Task<int> Complete()
+        /// <summary>
+        /// Same meaning as Save Chnages - Async
+        /// </summary>
+        /// <returns>Rows count affected</returns>
+        public async Task<int> CompleteAsync()
         {
             return await _fastFoodDbContext.SaveChangesAsync();
         }
 
-        public async Task<IDbContextTransaction> BeginTransaction()
+        /// <summary>
+        /// Creating Transaction - Async
+        /// </summary>
+        /// <returns>IDbContextTransaction</returns>
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             return await _fastFoodDbContext.Database.BeginTransactionAsync();
         }

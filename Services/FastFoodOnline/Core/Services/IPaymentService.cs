@@ -25,7 +25,8 @@ namespace FastFoodOnline.Core.Services
         /// Add Payment - Async
         /// </summary>
         /// <param name="payment">New Payment</param>
+        /// <param name="username">User who done the payment</param>
         /// <returns>Added Payment</returns>
-        Task<Payment> AddPaymentAsync(Payment payment);
+        Task<Payment> AddPaymentAsync(Payment payment, string username);
     }
 }

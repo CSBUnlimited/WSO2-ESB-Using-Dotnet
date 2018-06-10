@@ -201,9 +201,11 @@ namespace FastFoodOnline.Migrations
                         .IsFixedLength(true)
                         .HasMaxLength(10);
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired();
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired();
 
                     b.Property<DateTime>("RegisteredDate")
                         .ValueGeneratedOnAdd()

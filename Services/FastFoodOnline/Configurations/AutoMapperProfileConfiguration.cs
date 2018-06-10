@@ -29,7 +29,7 @@ namespace FastFoodOnline.Configurations
                 .ForMember(pvm => pvm.PaymentMethodViewModel, opt => opt.MapFrom(p => p.PaymentMethod));
 
             CreateMap<User, UserViewModel>()
-                .ForMember(uvm => uvm.Gender, opt => opt.MapFrom(u => (u.Gender == Gender.Male) ? "Male" : "Female"))
+                .ForMember(uvm => uvm.Gender, opt => opt.MapFrom(u => (u.Gender == Gender.Male) ? "M" : "F"))
                 .ForMember(uvm => uvm.PaymentViewModels, opt => opt.MapFrom(u => u.Payments))
                 .ForMember(uvm => uvm.SentEmailViewModels, opt => opt.MapFrom(u => u.SentEmails))
                 .ForMember(uvm => uvm.SentMessageViewModel, opt => opt.MapFrom(u => u.SentMessages));
@@ -37,6 +37,9 @@ namespace FastFoodOnline.Configurations
 
         private void CreateMapViewModelsToModels()
         {
+            CreateMap<UserViewModel, User>()
+                .ForMember(u => u.Gender, opt => opt.MapFrom(uvm => (uvm.Gender.Equals("F") ? Gender.Female : Gender.Male)));
+
             CreateMap<FoodOrderViewModel, FoodOrder>();
 
             CreateMap<PaymentMethodViewModel, PaymentMethod>();

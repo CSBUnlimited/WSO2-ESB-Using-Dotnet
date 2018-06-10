@@ -12,8 +12,9 @@ namespace FastFoodOnline.DataAccess.Persistence.DatabaseTableConfiguration
             builder.Property(u => u.Username).IsRequired();
             builder.Property(u => u.Username).HasMaxLength(20);
 
-            builder.Property(u => u.Password).IsRequired();
-            builder.Property(u => u.Password).HasMaxLength(200);
+            builder.Property(u => u.PasswordHash).IsRequired();
+
+            builder.Property(u => u.PasswordSalt).IsRequired();
 
             builder.Property(u => u.FirstName).IsRequired();
             builder.Property(u => u.FirstName).HasMaxLength(100);

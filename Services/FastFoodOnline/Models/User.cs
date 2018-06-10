@@ -6,8 +6,11 @@ namespace FastFoodOnline.Models
     public class User
     {
         public int Id { get; set; }
+
         public string Username { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }
@@ -15,8 +18,9 @@ namespace FastFoodOnline.Models
         public string Mobile { get; set; }
         public float LoyaltyPoints { get; set; }
         public DateTime RegisteredDate { get; set; }
-        public bool? IsActive { get; set; }
 
+        public bool? IsActive { get; set; }
+        
         public IEnumerable<Payment> Payments { get; set; }
         public IEnumerable<SentEmail> SentEmails { get; set; }
         public IEnumerable<SentMessage> SentMessages { get; set; }

@@ -1,9 +1,12 @@
-﻿using FastFoodOnline.Base.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+using FastFoodOnline.Base.DTOs;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Resources.DTOs.Login
 {
     public class LoginRequest : BaseRequest
     {
-        public string Password { get; set; }
+        [Required]
+        public LoginViewModel LoginViewModel { get; set; }
     }
 }

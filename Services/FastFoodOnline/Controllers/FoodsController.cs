@@ -8,6 +8,7 @@ using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Food;
 using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
@@ -19,6 +20,7 @@ namespace FastFoodOnline.Controllers
     {
         #region Private Properties
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFoodService _foodService;
         private readonly IMapper _mapper;
 
@@ -27,10 +29,12 @@ namespace FastFoodOnline.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="foodService">FoodService</param>
         /// <param name="mapper">Automapper</param>
-        public FoodController(IFoodService foodService, IMapper mapper)
+        public FoodController(IHttpContextAccessor httpContextAccessor, IFoodService foodService, IMapper mapper)
         {
+            _httpContextAccessor = httpContextAccessor;
             _foodService = foodService;
             _mapper = mapper;
         }

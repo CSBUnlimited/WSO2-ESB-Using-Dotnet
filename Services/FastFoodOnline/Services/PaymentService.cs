@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
@@ -41,23 +42,32 @@ namespace FastFoodOnline.Services
         /// Add Payment - Async
         /// </summary>
         /// <param name="payment">New Payment</param>
+        /// <param name="username">User who done the payment</param>
         /// <returns>Added Payment</returns>
-        public async Task<Payment> AddPaymentAsync(Payment payment)
+        public async Task<Payment> AddPaymentAsync(Payment payment, string username)
         {
-            using (IDbContextTransaction transaction = await UnitOfWork.BeginTransaction())
+            using (IDbContextTransaction transaction = await UnitOfWork.BeginTransactionAsync())
             {
                 try
                 {
                     // need change
                     // Here we need to check the payment referenece from their api
+
+                    User user = await UnitOfWork.UserRepository.GetUserByUsernameAsync(username);
+                    if (user == null)
+                    {
+                        throw new Exception("Invalid user or user not found.");
+                    }
+
+                    payment.UserId = user.Id;
+
                     PaymentMethod paymentMethod = await UnitOfWork.PaymentMethodRepository.GetPaymentMethodByIdAsync(payment.PaymentMethodId);
 
                     await UnitOfWork.PaymentRepository.AddPaymentAsync(payment);
-                    await UnitOfWork.Complete();
-
-                    User user = await UnitOfWork.UserRepository.GetUserByIdAsync(payment.UserId);
+                    await UnitOfWork.CompleteAsync();
+                    
                     user.LoyaltyPoints += payment.EarnedLoyaltyPoints;
-                    await UnitOfWork.Complete();
+                    await UnitOfWork.CompleteAsync();
 
 
                     string message = $"{ ((user.Gender == Gender.Male) ? "Mr" : "Miss/ Mrs") }. { user.FirstName }, you payed Rs.{ string.Format("{0:0.00}", payment.Amount) } successfully by { paymentMethod.Name } on { payment.PayedDateTime }";
@@ -67,7 +77,7 @@ namespace FastFoodOnline.Services
                         Subject = "Payment success",
                         Message = message,
                         Payment = payment,
-                        User = user
+                        UserId = user.Id
                     };
                     //Do what ever thing in here to send email
                     await UnitOfWork.SentEmailRepository.AddSentEmailAsync(sentEmail);
@@ -76,12 +86,12 @@ namespace FastFoodOnline.Services
                     {
                         Message = message,
                         Payment = payment,
-                        User = user
+                        UserId = user.Id
                     };
                     //Do what ever thing in here to send sms
                     await UnitOfWork.SentMessageRepository.AddSentMessageAsync(sentMessage);
 
-                    await UnitOfWork.Complete();
+                    await UnitOfWork.CompleteAsync();
 
                     transaction.Commit();
 

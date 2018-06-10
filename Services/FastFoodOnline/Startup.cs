@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using AutoMapper;
 using FastFoodOnline.Configurations;
 using FastFoodOnline.DataAccess.Persistence;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FastFoodOnline
 {
@@ -59,16 +61,17 @@ namespace FastFoodOnline
             services.RegisterDependancies();
 
             // Add Authentication Services
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = "https://csbunlimited.auth0.com/";
-                options.Audience = "https://api.fastfoodinine.lk";
-            });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("ApplicationSettings")["AuthenticationEncodingKey"].ToString())),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
 
             // Add MVC

@@ -1,3 +1,4 @@
+import { AuthService } from './services/authentication/auth.service';
 import { ApiService } from './services/api.service';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
@@ -36,6 +37,7 @@ export class SharedModule {
         return {
             ngModule: SharedModule,
             providers: [
+                AuthService,
                 MessageService,
                 MessageHandlingService,
                 ApiService,

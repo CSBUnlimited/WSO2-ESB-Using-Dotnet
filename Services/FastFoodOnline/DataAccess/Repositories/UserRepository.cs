@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FastFoodOnline.Base.Repositories;
 using FastFoodOnline.Core.DataAccess.Repositories;
@@ -16,7 +17,22 @@ namespace FastFoodOnline.DataAccess.Repositories
         /// <returns>IEnumerable of User</returns>
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await DbContext.Users.ToListAsync();
+            return await DbContext.Users
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Gender = u.Gender,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    LoyaltyPoints = u.LoyaltyPoints,
+                    RegisteredDate = u.RegisteredDate,
+                    IsActive = u.IsActive
+                })
+                .Where(u => u.IsActive == true)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -30,6 +46,22 @@ namespace FastFoodOnline.DataAccess.Repositories
                 .Include(u => u.Payments)
                 .Include(u => u.SentMessages)
                 .Include(u => u.SentEmails)
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Gender = u.Gender,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    LoyaltyPoints = u.LoyaltyPoints,
+                    RegisteredDate = u.RegisteredDate,
+                    Payments = u.Payments,
+                    SentMessages = u.SentMessages,
+                    SentEmails = u.SentEmails,
+                    IsActive = u.IsActive
+                })
                 .SingleOrDefaultAsync(u => u.Id == id && u.IsActive == true);
         }
 
@@ -40,31 +72,29 @@ namespace FastFoodOnline.DataAccess.Repositories
         /// <returns>User</returns>
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            return await DbContext.Users
+            User user = await DbContext.Users
                 .Include(u => u.Payments)
                 .Include(u => u.SentMessages)
                 .Include(u => u.SentEmails)
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Gender = u.Gender,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    LoyaltyPoints = u.LoyaltyPoints,
+                    RegisteredDate = u.RegisteredDate,
+                    Payments = u.Payments,
+                    SentMessages = u.SentMessages,
+                    SentEmails = u.SentEmails,
+                    IsActive = u.IsActive
+                })
                 .SingleOrDefaultAsync(u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
-        }
 
-        /// <summary>
-        /// Get User B yUsername And Password - Async
-        /// </summary>
-        /// <param name="username">Username</param>
-        /// <param name="password">Encrypted Password</param>
-        /// <returns>User</returns>
-        public async Task<User> GetUserByUsernameAndPasswordAsync(string username, string password)
-        {
-            return await DbContext.Users
-                .Include(u => u.Payments)
-                .Include(u => u.SentMessages)
-                .Include(u => u.SentEmails)
-                .SingleOrDefaultAsync
-                (
-                    u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) &&
-                         u.Password.Equals(password) &&
-                         u.IsActive == true
-                );
+            return user;
         }
     }
 }

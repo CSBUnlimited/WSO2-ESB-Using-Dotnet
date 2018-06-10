@@ -1,3 +1,4 @@
+import { AuthService } from './../../shared/services/authentication/auth.service';
 import { FastFoodOnlineService } from './../../shared/services/fast.food.online.service';
 import { Component, OnInit } from '@angular/core';
 import { UserVM } from '../../shared/models';
@@ -12,11 +13,12 @@ export class HomeComponent implements OnInit {
     public users: UserVM[] = [];
 
     constructor(
-        private apiService: FastFoodOnlineService
+        private apiService: FastFoodOnlineService,
+        private authService: AuthService
     ) { }
 
     ngOnInit() {
-        this.getAllUsers();
+        // this.getAllUsers();
     }
 
     //Api calls
@@ -34,5 +36,9 @@ export class HomeComponent implements OnInit {
 
             }
         )
+    }
+
+    public login() {
+        this.authService.login();
     }
 }

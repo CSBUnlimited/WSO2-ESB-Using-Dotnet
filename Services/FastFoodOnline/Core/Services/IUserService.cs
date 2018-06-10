@@ -24,7 +24,8 @@ namespace FastFoodOnline.Core.Services
         /// Get User By Username - Async
         /// </summary>
         /// <param name="username">Username</param>
+        /// <param name="requestedUserUsername"></param>
         /// <returns>User</returns>
-        Task<User> GetUserByUsernameAsync(string username);
+        Task<User> GetUserByUsernameAsync(string username, string requestedUserUsername);
     }
 }

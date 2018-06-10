@@ -36,11 +36,55 @@ namespace FastFoodOnline.DataAccess.Repositories
         }
 
         /// <summary>
-        /// Get User By Id - Async
+        /// Get User Id by Username - Async
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns>User Id</returns>
+        public async Task<int> GetUserIdByUsernameAsync(string username)
+        {
+            User user = await DbContext.Users
+                .Select(u => new User()
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    IsActive = u.IsActive
+                })
+                .SingleOrDefaultAsync(u =>
+                    u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
+
+            return user?.Id ?? 0;
+        }
+
+        /// <summary>
+        /// Get Just User By Id - Async
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns>User</returns>
         public async Task<User> GetUserByIdAsync(int id)
+        {
+            return await DbContext.Users
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Gender = u.Gender,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    LoyaltyPoints = u.LoyaltyPoints,
+                    RegisteredDate = u.RegisteredDate,
+                    IsActive = u.IsActive
+                })
+                .SingleOrDefaultAsync(u => u.Id == id && u.IsActive == true);
+        }
+
+        /// <summary>
+        /// Get User and Details By Id - Async
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns>User</returns>
+        public async Task<User> GetUserDetailsByIdAsync(int id)
         {
             return await DbContext.Users
                 .Include(u => u.Payments)
@@ -66,13 +110,37 @@ namespace FastFoodOnline.DataAccess.Repositories
         }
 
         /// <summary>
-        /// Get User By Username - Async
+        /// Get Just User By Username - Async
         /// </summary>
         /// <param name="username">Username</param>
         /// <returns>User</returns>
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            User user = await DbContext.Users
+            return await DbContext.Users
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Gender = u.Gender,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    LoyaltyPoints = u.LoyaltyPoints,
+                    RegisteredDate = u.RegisteredDate,
+                    IsActive = u.IsActive
+                })
+                .SingleOrDefaultAsync(u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
+        }
+
+        /// <summary>
+        /// Get User By Username - Async
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns>User</returns>
+        public async Task<User> GetUserDetailsByUsernameAsync(string username)
+        {
+            return await DbContext.Users
                 .Include(u => u.Payments)
                 .Include(u => u.SentMessages)
                 .Include(u => u.SentEmails)
@@ -93,8 +161,6 @@ namespace FastFoodOnline.DataAccess.Repositories
                     IsActive = u.IsActive
                 })
                 .SingleOrDefaultAsync(u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
-
-            return user;
         }
     }
 }

@@ -14,17 +14,40 @@ namespace FastFoodOnline.Core.DataAccess.Repositories
         Task<IEnumerable<User>> GetAllUsersAsync();
 
         /// <summary>
-        /// Get User By Id - Async
+        /// Get User Id by Username - Async
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns>User Id</returns>
+        Task<int> GetUserIdByUsernameAsync(string username);
+
+        /// <summary>
+        /// Get Just User By Id - Async
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns>User</returns>
         Task<User> GetUserByIdAsync(int id);
 
         /// <summary>
-        /// Get User By Username - Async
+        /// Get User and Details By Id - Async
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns>User</returns>
+        Task<User> GetUserDetailsByIdAsync(int id);
+
+        /// <summary>
+        /// Get Just User By Username - Async
         /// </summary>
         /// <param name="username">Username</param>
         /// <returns>User</returns>
         Task<User> GetUserByUsernameAsync(string username);
+
+        /// <summary>
+        /// Get User and Details By Username - Async
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns>User</returns>
+        Task<User> GetUserDetailsByUsernameAsync(string username);
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
@@ -32,17 +33,25 @@ namespace FastFoodOnline.Services
         /// <returns>User</returns>
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await UnitOfWork.UserRepository.GetUserByIdAsync(id);
+            return await UnitOfWork.UserRepository.GetUserDetailsByIdAsync(id);
         }
 
         /// <summary>
         /// Get User By Username - Async
         /// </summary>
         /// <param name="username">Username</param>
+        /// <param name="requestedUserUsername"></param>
         /// <returns>User</returns>
-        public async Task<User> GetUserByUsernameAsync(string username)
+        public async Task<User> GetUserByUsernameAsync(string username, string requestedUserUsername)
         {
-            return await UnitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            if (username.Equals(requestedUserUsername, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return await UnitOfWork.UserRepository.GetUserDetailsByUsernameAsync(username);
+            }
+            else
+            {
+                return await UnitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            }
         }
     }
 }

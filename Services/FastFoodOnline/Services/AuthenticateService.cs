@@ -107,7 +107,7 @@ namespace FastFoodOnline.Services
             if (userCredentials != null &&
                 IsPasswordVerified(password, userCredentials.PasswordHash, userCredentials.PasswordSalt))
             {
-                return await UnitOfWork.UserRepository.GetUserByUsernameAsync(userCredentials.Username);
+                return await UnitOfWork.UserRepository.GetUserDetailsByUsernameAsync(userCredentials.Username);
             }
 
             return null;

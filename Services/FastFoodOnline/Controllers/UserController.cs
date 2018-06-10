@@ -79,12 +79,7 @@ namespace FastFoodOnline.Controllers
             {
                 string usernameByToken = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                if (!usernameByToken.Equals(username, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    //need change
-                }
-
-                User user = await _userService.GetUserByUsernameAsync(username);
+                User user = await _userService.GetUserByUsernameAsync(username, usernameByToken);
 
                 if (user == null || user.Id <= 0)
                 {

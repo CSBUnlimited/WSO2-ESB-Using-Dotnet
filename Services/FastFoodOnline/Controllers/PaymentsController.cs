@@ -12,10 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    /// <summary>
+    /// Provide Payment realated Services
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class PaymentController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
         #region Private Properties
 
@@ -29,7 +32,7 @@ namespace FastFoodOnline.Controllers
         /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="paymentService">PaymentService</param>
         /// <param name="mapper">Automapper</param>
-        public PaymentController(IHttpContextAccessor httpContextAccessor, IPaymentService paymentService, IMapper mapper)
+        public PaymentsController(IHttpContextAccessor httpContextAccessor, IPaymentService paymentService, IMapper mapper)
         {
             _paymentService = paymentService;
             _paymentService.HttpContextAccessor = httpContextAccessor;
@@ -41,6 +44,9 @@ namespace FastFoodOnline.Controllers
         /// <param name="paymentRequest">FromBody - PaymentRequest</param>
         /// <returns>PaymentResponse</returns>
         [HttpPost(Name = "AddPaymentAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> AddPaymentAsync([FromBody]PaymentRequest paymentRequest)
         {
             PaymentResponse paymentResponse = new PaymentResponse();

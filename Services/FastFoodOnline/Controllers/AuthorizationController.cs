@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    /// <summary>
+    /// Provide Authorization realated Services
+    /// </summary>
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class AuthorizationController : ControllerBase
@@ -33,7 +36,13 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="username">Username that request</param>
         /// <returns>UserResponse</returns>
+        /// <response code="200">Username allowed to use</response>
+        /// <response code="302">Username already used</response>
+        /// <response code="400">Bad request by client</response>
         [HttpGet("{username}", Name = "CheckUsernameAvailableAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Found)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CheckUsernameAvailableAsync(string username)
         {
             UserResponse userResponse = new UserResponse();
@@ -78,6 +87,9 @@ namespace FastFoodOnline.Controllers
         /// <param name="loginRequest">FromBody - LoginRequest</param>
         /// <returns>UserResponse</returns>
         [HttpPost(Name = "UserLoginAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> UserLoginAsync([FromBody]LoginRequest loginRequest)
         {
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
@@ -120,6 +132,9 @@ namespace FastFoodOnline.Controllers
         /// <param name="userRequest">FromBody - UserRequest</param>
         /// <returns>UserResponse</returns>
         [HttpPost(Name = "UserRegisterationAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> UserRegisterationAsync([FromBody]UserRequest userRequest)
         {
             UserResponse userResponse = new UserResponse();

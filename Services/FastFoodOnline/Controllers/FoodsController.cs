@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    /// <summary>
+    /// Provide Food realated Services
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -38,6 +41,9 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <returns>FoodResponse</returns>
         [HttpGet(Name = "GetFoodsAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetFoodsAsync()
         {
             FoodResponse foodResponse = new FoodResponse();
@@ -64,6 +70,9 @@ namespace FastFoodOnline.Controllers
         /// <param name="id">Food Id</param>
         /// <returns>FoodResponse</returns>
         [HttpGet("{id}", Name = "GetFoodByIdAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetFoodByIdAsync(int id)
         {
             FoodResponse foodResponse = new FoodResponse();

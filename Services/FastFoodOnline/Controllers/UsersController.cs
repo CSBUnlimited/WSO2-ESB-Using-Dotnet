@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
 {
+    /// <summary>
+    /// Provide User realated Services
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         #region Private Properties
         
@@ -27,7 +30,7 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="userService">UserService</param>
-        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService)
+        public UsersController(IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
             _userService = userService;
             _userService.HttpContextAccessor = httpContextAccessor;
@@ -38,6 +41,9 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <returns>UserResponse</returns>
         [HttpGet(Name = "GetAllUsersAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             UserResponse userResponse = new UserResponse();
@@ -52,7 +58,7 @@ namespace FastFoodOnline.Controllers
             {
                 userResponse.Message = ex.Message;
                 userResponse.MessageDetails = ex.ToString();
-                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.Conflict;
+                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(userResponse.Status, userResponse);
@@ -64,6 +70,9 @@ namespace FastFoodOnline.Controllers
         /// <param name="username">Username</param>
         /// <returns>UserResponse</returns>
         [HttpGet("{username}", Name = "GetUserByUsernameAsync")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetUserByUsernameAsync(string username)
         {
             UserResponse userResponse = new UserResponse();
@@ -82,7 +91,7 @@ namespace FastFoodOnline.Controllers
             {
                 userResponse.Message = ex.Message;
                 userResponse.MessageDetails = ex.ToString();
-                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.Conflict;
+                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(userResponse.Status, userResponse);

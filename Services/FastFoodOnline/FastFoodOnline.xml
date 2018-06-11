@@ -24,6 +24,62 @@
             <param name="mapper">Auto Mapper Injection</param>
             <param name="configuration">Configutaions of Application</param>
         </member>
+        <member name="T:FastFoodOnline.Configurations.AutoMapperProfileConfiguration">
+            <summary>
+            AutoMapper Profile Configuration
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.AutoMapperProfileConfiguration.#ctor">
+            <summary>
+            AutoMapperProfileConfiguration - Constructor
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.AutoMapperProfileConfiguration.CreateMapsModelsToViewModels">
+            <summary>
+            How to Map Models to ViewModels
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.AutoMapperProfileConfiguration.CreateMapViewModelsToModels">
+            <summary>
+            How to Map ViewModels to Models
+            </summary>
+        </member>
+        <member name="T:FastFoodOnline.Configurations.DependancyInjectionConfiguration">
+            <summary>
+            Dependancy Injection Container - Extention
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.DependancyInjectionConfiguration.RegisterDependancies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Register Dependancies
+            </summary>
+            <param name="services">Service Collection</param>
+            <returns>Service Collection</returns>
+        </member>
+        <member name="T:FastFoodOnline.Configurations.SwaggerConfiguration">
+            <summary>
+            Swagger Configuration - Extention
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.SwaggerConfiguration.SwaggerConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Swagger Configure Services
+            </summary>
+            <param name="services">Service Collection</param>
+            <returns>Service Collection</returns>
+        </member>
+        <member name="M:FastFoodOnline.Configurations.SwaggerConfiguration.UseSwaggerConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Swagger Configure
+            </summary>
+            <param name="app">Application Builder</param>
+            <returns>Application Builder</returns>
+        </member>
+        <member name="T:FastFoodOnline.Controllers.AuthorizationController">
+            <summary>
+            Provide Authorization realated Services
+            </summary>
+        </member>
         <member name="M:FastFoodOnline.Controllers.AuthorizationController.#ctor(FastFoodOnline.Core.Services.IAuthenticateService)">
             <summary>
             Constructor
@@ -36,6 +92,9 @@
             </summary>
             <param name="username">Username that request</param>
             <returns>UserResponse</returns>
+            <response code="200">Username allowed to use</response>
+            <response code="302">Username already used</response>
+            <response code="400">Bad request by client</response>
         </member>
         <member name="M:FastFoodOnline.Controllers.AuthorizationController.UserLoginAsync(FastFoodOnline.Resources.DTOs.Login.LoginRequest)">
             <summary>
@@ -50,6 +109,11 @@
             </summary>
             <param name="userRequest">FromBody - UserRequest</param>
             <returns>UserResponse</returns>
+        </member>
+        <member name="T:FastFoodOnline.Controllers.FoodController">
+            <summary>
+            Provide Food realated Services
+            </summary>
         </member>
         <member name="M:FastFoodOnline.Controllers.FoodController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IFoodService)">
             <summary>
@@ -71,7 +135,12 @@
             <param name="id">Food Id</param>
             <returns>FoodResponse</returns>
         </member>
-        <member name="M:FastFoodOnline.Controllers.PaymentController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IPaymentService,AutoMapper.IMapper)">
+        <member name="T:FastFoodOnline.Controllers.PaymentsController">
+            <summary>
+            Provide Payment realated Services
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.PaymentsController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IPaymentService,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
@@ -79,27 +148,32 @@
             <param name="paymentService">PaymentService</param>
             <param name="mapper">Automapper</param>
         </member>
-        <member name="M:FastFoodOnline.Controllers.PaymentController.AddPaymentAsync(FastFoodOnline.Resources.DTOs.Payment.PaymentRequest)">
+        <member name="M:FastFoodOnline.Controllers.PaymentsController.AddPaymentAsync(FastFoodOnline.Resources.DTOs.Payment.PaymentRequest)">
             <summary>
             Add Payment - Async
             </summary>
             <param name="paymentRequest">FromBody - PaymentRequest</param>
             <returns>PaymentResponse</returns>
         </member>
-        <member name="M:FastFoodOnline.Controllers.UserController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IUserService)">
+        <member name="T:FastFoodOnline.Controllers.UsersController">
+            <summary>
+            Provide User realated Services
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.UsersController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IUserService)">
             <summary>
             Constructor
             </summary>
             <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
             <param name="userService">UserService</param>
         </member>
-        <member name="M:FastFoodOnline.Controllers.UserController.GetAllUsersAsync">
+        <member name="M:FastFoodOnline.Controllers.UsersController.GetAllUsersAsync">
             <summary>
             Get All Users - Async
             </summary>
             <returns>UserResponse</returns>
         </member>
-        <member name="M:FastFoodOnline.Controllers.UserController.GetUserByUsernameAsync(System.String)">
+        <member name="M:FastFoodOnline.Controllers.UsersController.GetUserByUsernameAsync(System.String)">
             <summary>
             Get User By Username - Async
             </summary>

@@ -47,8 +47,8 @@ namespace FastFoodOnline.Configurations
                 });
                 c.AddSecurityRequirement(security);
 
-                //var filePath = System.IO.Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "FastFoodOnline.xml");
-                //c.IncludeXmlComments(filePath);
+                var filePath = System.IO.Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "FastFoodOnline.xml");
+                c.IncludeXmlComments(filePath);
             });
 
             return services;

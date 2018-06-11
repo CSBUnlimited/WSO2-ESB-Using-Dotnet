@@ -60,6 +60,9 @@ namespace FastFoodOnline
             //Dependancy Injection
             services.RegisterDependancies();
 
+            // Swagger Configure Services
+            services.SwaggerConfigureServices();
+
             // Add Authentication Services
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -94,6 +97,9 @@ namespace FastFoodOnline
 
             // Add MVC
             app.UseMvc();
+
+            //Swagger Configure
+            app.UseSwaggerConfigure();
 
             // Database Intilization 
             var optionsBuilder = new DbContextOptionsBuilder<FastFoodDbContext>();

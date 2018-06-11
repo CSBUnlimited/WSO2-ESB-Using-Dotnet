@@ -1,18 +1,11 @@
 ﻿using System.Threading.Tasks;
 using FastFoodOnline.Core.Base.Services;
-using FastFoodOnline.Models;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Core.Services
 {
     public interface IAuthenticateService : IBaseService
     {
-        /// <summary>
-        /// Genarate Token For User
-        /// </summary>
-        /// <param name="user">User Details</param>
-        /// <returns>Token String</returns>
-        string GenarateTokenForUser(User user);
-
         /// <summary>
         /// Check weather given username has reserved by another user - Async
         /// </summary>
@@ -26,15 +19,15 @@ namespace FastFoodOnline.Core.Services
         /// </summary>
         /// <param name="username">Username</param>
         /// <param name="password">Plain text password</param>
-        /// <returns>User</returns>
-        Task<User> LoginUserByUsernameAndPassword(string username, string password);
+        /// <returns>TokenViewModel</returns>
+        Task<TokenViewModel> LoginUserByUsernameAndPassword(string username, string password);
 
         /// <summary>
-        /// Re
+        /// Register User - Async
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        Task<bool> RegisterUserAsync(User user, string password);
+        /// <param name="userViewModel">UserViewModel</param>
+        /// <param name="password">Password</param>
+        /// <returns>Is user registered or not</returns>
+        Task<bool> RegisterUserAsync(UserViewModel userViewModel, string password);
     }
 }

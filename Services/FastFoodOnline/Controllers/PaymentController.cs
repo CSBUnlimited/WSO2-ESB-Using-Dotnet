@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using FastFoodOnline.Core.Services;
-using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Payment;
 using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +19,7 @@ namespace FastFoodOnline.Controllers
     {
         #region Private Properties
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPaymentService _paymentService;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -35,9 +31,8 @@ namespace FastFoodOnline.Controllers
         /// <param name="mapper">Automapper</param>
         public PaymentController(IHttpContextAccessor httpContextAccessor, IPaymentService paymentService, IMapper mapper)
         {
-            _httpContextAccessor = httpContextAccessor;
             _paymentService = paymentService;
-            _mapper = mapper;
+            _paymentService.HttpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -54,14 +49,9 @@ namespace FastFoodOnline.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string username = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    Payment payment = _mapper.Map<PaymentViewModel, Payment>(paymentRequest.PaymentViewModel);
-
-                    payment = await _paymentService.AddPaymentAsync(payment, username);
-
                     paymentResponse.PaymentViewModels = new List<PaymentViewModel>()
                     {
-                        _mapper.Map<Payment, PaymentViewModel>(payment)
+                        await _paymentService.AddPaymentViewModelAsync(paymentRequest.PaymentViewModel)
                     };
 
                     paymentResponse.IsSuccess = true;
@@ -78,7 +68,7 @@ namespace FastFoodOnline.Controllers
             {
                 paymentResponse.Message = ex.Message;
                 paymentResponse.MessageDetails = ex.ToString();
-                paymentResponse.Status = paymentResponse.Status > 0 ? paymentResponse.Status : (int)HttpStatusCode.Conflict;
+                paymentResponse.Status = paymentResponse.Status > 0 ? paymentResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(paymentResponse.Status, paymentResponse);

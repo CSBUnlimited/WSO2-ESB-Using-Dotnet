@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
 using FastFoodOnline.Core.Services;
-using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Food;
 using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +17,8 @@ namespace FastFoodOnline.Controllers
     public class FoodController : ControllerBase
     {
         #region Private Properties
-
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        
         private readonly IFoodService _foodService;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -31,12 +27,10 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="foodService">FoodService</param>
-        /// <param name="mapper">Automapper</param>
-        public FoodController(IHttpContextAccessor httpContextAccessor, IFoodService foodService, IMapper mapper)
+        public FoodController(IHttpContextAccessor httpContextAccessor, IFoodService foodService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _foodService = foodService;
-            _mapper = mapper;
+            _foodService.HttpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -50,7 +44,7 @@ namespace FastFoodOnline.Controllers
 
             try
             {
-                foodResponse.FoodViewModels = _mapper.Map<IEnumerable<Food>, IEnumerable<FoodViewModel>>(await _foodService.GetAllFoodsAsync());
+                foodResponse.FoodViewModels = await _foodService.GetAllFoodViewModelsAsync();
                 foodResponse.IsSuccess = true;
                 foodResponse.Status = (int)HttpStatusCode.OK;
             }
@@ -58,7 +52,7 @@ namespace FastFoodOnline.Controllers
             {
                 foodResponse.Message = ex.Message;
                 foodResponse.MessageDetails = ex.ToString();
-                foodResponse.Status = foodResponse.Status > 0 ? foodResponse.Status : (int)HttpStatusCode.Conflict;
+                foodResponse.Status = foodResponse.Status > 0 ? foodResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(foodResponse.Status, foodResponse);
@@ -78,7 +72,7 @@ namespace FastFoodOnline.Controllers
             {
                 foodResponse.FoodViewModels = new List<FoodViewModel>()
                 {
-                     _mapper.Map<Food, FoodViewModel>(await _foodService.GetFoodByIdAsync(id))
+                     await _foodService.GetFoodViewModelGetByIdAsync(id)
                 };
                 foodResponse.IsSuccess = true;
                 foodResponse.Status = (int)HttpStatusCode.OK;
@@ -87,7 +81,7 @@ namespace FastFoodOnline.Controllers
             {
                 foodResponse.Message = ex.Message;
                 foodResponse.MessageDetails = ex.ToString();
-                foodResponse.Status = foodResponse.Status > 0 ? foodResponse.Status : (int)HttpStatusCode.Conflict;
+                foodResponse.Status = foodResponse.Status > 0 ? foodResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(foodResponse.Status, foodResponse);

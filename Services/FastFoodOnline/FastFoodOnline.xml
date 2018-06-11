@@ -1,0 +1,647 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FastFoodOnline</name>
+    </assembly>
+    <members>
+        <member name="P:FastFoodOnline.Base.Repositories.BaseRepository.DbContext">
+            <summary>
+            Fast Food - DbContext
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.Base.Services.BaseService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Base.Services.BaseService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+            <param name="configuration">Configutaions of Application</param>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.AuthorizationController.#ctor(FastFoodOnline.Core.Services.IAuthenticateService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="authenticateService">AuthenticateService</param>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.AuthorizationController.CheckUsernameAvailableAsync(System.String)">
+            <summary>
+            Check Username is Taken by Another user or not - Async
+            </summary>
+            <param name="username">Username that request</param>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.AuthorizationController.UserLoginAsync(FastFoodOnline.Resources.DTOs.Login.LoginRequest)">
+            <summary>
+            User Login - Async
+            </summary>
+            <param name="loginRequest">FromBody - LoginRequest</param>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.AuthorizationController.UserRegisterationAsync(FastFoodOnline.Resources.DTOs.User.UserRequest)">
+            <summary>
+            User Registeration - Async
+            </summary>
+            <param name="userRequest">FromBody - UserRequest</param>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.FoodController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IFoodService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
+            <param name="foodService">FoodService</param>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.FoodController.GetFoodsAsync">
+            <summary>
+            Get All Foods - Async
+            </summary>
+            <returns>FoodResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.FoodController.GetFoodByIdAsync(System.Int32)">
+            <summary>
+            Get Food By Id - Async
+            </summary>
+            <param name="id">Food Id</param>
+            <returns>FoodResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.PaymentController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IPaymentService,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
+            <param name="paymentService">PaymentService</param>
+            <param name="mapper">Automapper</param>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.PaymentController.AddPaymentAsync(FastFoodOnline.Resources.DTOs.Payment.PaymentRequest)">
+            <summary>
+            Add Payment - Async
+            </summary>
+            <param name="paymentRequest">FromBody - PaymentRequest</param>
+            <returns>PaymentResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.UserController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,FastFoodOnline.Core.Services.IUserService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
+            <param name="userService">UserService</param>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.UserController.GetAllUsersAsync">
+            <summary>
+            Get All Users - Async
+            </summary>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Controllers.UserController.GetUserByUsernameAsync(System.String)">
+            <summary>
+            Get User By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.IUnitOfWork.CompleteAsync">
+            <summary>
+            Same meaning as Save Chnages - Async
+            </summary>
+            <returns>Rows count affected</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.IUnitOfWork.BeginTransactionAsync">
+            <summary>
+            Creating Transaction - Async
+            </summary>
+            <returns>IDbContextTransaction</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IAuthorizationRepository.RegisterUserAsync(FastFoodOnline.Models.User)">
+            <summary>
+            Register User - Async
+            </summary>
+            <param name="user">User to Register</param>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IAuthorizationRepository.GetUserCredentialsByUsername(System.String)">
+            <summary>
+            Get User Credentials By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User Credential Data</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IAuthorizationRepository.IsUserExistsAsync(System.String)">
+            <summary>
+            Check user is exists or not - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>If user exists then True, otherwise False</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IFoodRepository.GetAllFoodsAsync">
+            <summary>
+            Get All Foods - Async
+            </summary>
+            <returns>IEnumerable of Food</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IFoodRepository.GetFoodByIdAsync(System.Int32)">
+            <summary>
+            Get Food By Id - Async
+            </summary>
+            <param name="id">Food Id</param>
+            <returns>Food</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentMethodRepository.GetAllPaymentMethodsAsync">
+            <summary>
+            Get All Payment Methods - Async
+            </summary>
+            <returns>IEnumerable of PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentMethodRepository.GetPaymentMethodByIdAsync(System.Int32)">
+            <summary>
+            Get Payment Method By Id - Async
+            </summary>
+            <param name="id">Payment Method Id</param>
+            <returns>PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentMethodRepository.GetPaymentMethodByCodeAsync(System.String)">
+            <summary>
+            Get Payment Method By Code - Async
+            </summary>
+            <param name="code">Payment Method Code</param>
+            <returns>PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentRepository.GetPaymentByUserIdAsync(System.Int32)">
+            <summary>
+            Get Payment By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of Payment</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentRepository.GetPaymentByIdAsync(System.Int32)">
+            <summary>
+            Get Payment By Id - Async
+            </summary>
+            <param name="id">Payment Id</param>
+            <returns>Payment</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IPaymentRepository.AddPaymentAsync(FastFoodOnline.Models.Payment)">
+            <summary>
+            Add Payment - Async
+            </summary>
+            <param name="payment">New Payment</param>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.ISentEmailRepository.AddSentEmailAsync(FastFoodOnline.Models.SentEmail)">
+            <summary>
+            Add Sent Email - Async
+            </summary>
+            <param name="sentEmail"></param>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.ISentEmailRepository.GetSentEmailsByUserIdAsync(System.Int32)">
+            <summary>
+            Get Sent Emails By User Id - Async
+            </summary>
+            <param name="userId"></param>
+            <returns>IEnumerable of SentEmail</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.ISentMessageRepository.GetSentMessagesByUserIdAsync(System.Int32)">
+            <summary>
+            Get Sent Messages By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of SentMessage</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.ISentMessageRepository.AddSentMessageAsync(FastFoodOnline.Models.SentMessage)">
+            <summary>
+            Add Sent Message - Async
+            </summary>
+            <param name="sentMessage">S5ent Message</param>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetAllUsersAsync">
+            <summary>
+            Get All Users - Async
+            </summary>
+            <returns>IEnumerable of User</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetUserIdByUsernameAsync(System.String)">
+            <summary>
+            Get User Id by Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User Id</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetUserByIdAsync(System.Int32)">
+            <summary>
+            Get Just User By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetUserDetailsByIdAsync(System.Int32)">
+            <summary>
+            Get User and Details By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetUserByUsernameAsync(System.String)">
+            <summary>
+            Get Just User By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.DataAccess.Repositories.IUserRepository.GetUserDetailsByUsernameAsync(System.String)">
+            <summary>
+            Get User and Details By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IAuthenticateService.AuthenticateUsernameAsync(System.String)">
+            <summary>
+            Check weather given username has reserved by another user - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>If username is avalable then return True</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IAuthenticateService.LoginUserByUsernameAndPassword(System.String,System.String)">
+            <summary>
+            Authenticate Username and Password - Async
+            For Login
+            </summary>
+            <param name="username">Username</param>
+            <param name="password">Plain text password</param>
+            <returns>TokenViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IAuthenticateService.RegisterUserAsync(FastFoodOnline.Resources.ViewModels.UserViewModel,System.String)">
+            <summary>
+            Register User - Async
+            </summary>
+            <param name="userViewModel">UserViewModel</param>
+            <param name="password">Password</param>
+            <returns>Is user registered or not</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IFoodService.GetAllFoodViewModelsAsync">
+            <summary>
+            Get All FoodViewModels - Async
+            </summary>
+            <returns>IEnumerable of FoodViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IFoodService.GetFoodViewModelGetByIdAsync(System.Int32)">
+            <summary>
+            Get FoodViewModel By Id - Async
+            </summary>
+            <param name="id">FoodViewModel Id</param>
+            <returns>FoodViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IPaymentMethodService.GetAllPaymentMethodsAsync">
+            <summary>
+            Get All Payment Methods - Async
+            </summary>
+            <returns>IEnumerable of PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IPaymentService.GetPaymentViewModelsByUserIdAsync(System.Int32)">
+            <summary>
+            Get PaymentViewModels By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of PaymentViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IPaymentService.GetPaymentViewModelByIdAsync(System.Int32)">
+            <summary>
+            Get PaymentViewModel By Id - Async
+            </summary>
+            <param name="id">Payment Id</param>
+            <returns>PaymentViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IPaymentService.AddPaymentViewModelAsync(FastFoodOnline.Resources.ViewModels.PaymentViewModel)">
+            <summary>
+            Add Payment - Async
+            </summary>
+            <param name="paymentViewModel">New PaymentViewModel</param>
+            <returns>Added PaymentViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IUserService.GetAllUserViewModelsAsync">
+            <summary>
+            Get All UserViewModel - Async
+            </summary>
+            <returns>IEnumerable of UserViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IUserService.GetUserViewModelByIdAsync(System.Int32)">
+            <summary>
+            Get UserViewModel By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>UserViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Core.Services.IUserService.GetUserViewModelByUsernameAsync(System.String)">
+            <summary>
+            Get UserViewModel By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>UserViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.AuthorizationRepository.RegisterUserAsync(FastFoodOnline.Models.User)">
+            <summary>
+            Register User - Async
+            </summary>
+            <param name="user">User to Register</param>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.AuthorizationRepository.GetUserCredentialsByUsername(System.String)">
+            <summary>
+            Get User Credentials By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User Credential Data</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.AuthorizationRepository.IsUserExistsAsync(System.String)">
+            <summary>
+            Check user is exists or not - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>If user exists then True, otherwise False</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.FoodRepository.GetAllFoodsAsync">
+            <summary>
+            Get All Foods - Async
+            </summary>
+            <returns>IEnumerable of Food</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.FoodRepository.GetFoodByIdAsync(System.Int32)">
+            <summary>
+            Get Food By Id - Async
+            </summary>
+            <param name="id">Food Id</param>
+            <returns>Food</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentMethodRepository.GetAllPaymentMethodsAsync">
+            <summary>
+            Get All Payment Methods - Async
+            </summary>
+            <returns>IEnumerable of PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentMethodRepository.GetPaymentMethodByIdAsync(System.Int32)">
+            <summary>
+            Get Payment Method By Id - Async
+            </summary>
+            <param name="id">Payment Method Id</param>
+            <returns>PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentMethodRepository.GetPaymentMethodByCodeAsync(System.String)">
+            <summary>
+            Get Payment Method By Code - Async
+            </summary>
+            <param name="code">Payment Method Code</param>
+            <returns>PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentRepository.GetPaymentByUserIdAsync(System.Int32)">
+            <summary>
+            Get Payment By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of Payment</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentRepository.GetPaymentByIdAsync(System.Int32)">
+            <summary>
+            Get Payment By Id - Async
+            </summary>
+            <param name="id">Payment Id</param>
+            <returns>Payment</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.PaymentRepository.AddPaymentAsync(FastFoodOnline.Models.Payment)">
+            <summary>
+            Add Payment - Async
+            </summary>
+            <param name="payment">New Payment</param>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.SentEmailRepository.GetSentEmailsByUserIdAsync(System.Int32)">
+            <summary>
+            Get Sent Emails By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of SentEmail</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.SentEmailRepository.AddSentEmailAsync(FastFoodOnline.Models.SentEmail)">
+            <summary>
+            Add Sent Email - Async
+            </summary>
+            <param name="sentEmail">SentEmail</param>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.SentMessageRepository.GetSentMessagesByUserIdAsync(System.Int32)">
+            <summary>
+            Get Sent Messages By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of SentMessage</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.SentMessageRepository.AddSentMessageAsync(FastFoodOnline.Models.SentMessage)">
+            <summary>
+            Add Sent Message - Async
+            </summary>
+            <param name="sentMessage">S5ent Message</param>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetAllUsersAsync">
+            <summary>
+            Get All Users - Async
+            </summary>
+            <returns>IEnumerable of User</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetUserIdByUsernameAsync(System.String)">
+            <summary>
+            Get User Id by Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User Id</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetUserByIdAsync(System.Int32)">
+            <summary>
+            Get Just User By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetUserDetailsByIdAsync(System.Int32)">
+            <summary>
+            Get User and Details By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetUserByUsernameAsync(System.String)">
+            <summary>
+            Get Just User By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.Repositories.UserRepository.GetUserDetailsByUsernameAsync(System.String)">
+            <summary>
+            Get User By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>User</returns>
+        </member>
+        <member name="F:FastFoodOnline.DataAccess.UnitOfWork._fastFoodDbContext">
+            <summary>
+            FastFood DbContext
+            </summary>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.UnitOfWork.CompleteAsync">
+            <summary>
+            Same meaning as Save Chnages - Async
+            </summary>
+            <returns>Rows count affected</returns>
+        </member>
+        <member name="M:FastFoodOnline.DataAccess.UnitOfWork.BeginTransactionAsync">
+            <summary>
+            Creating Transaction - Async
+            </summary>
+            <returns>IDbContextTransaction</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="configuration">Configutaions of Application</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.CreatePasswordHashAndSalt(System.String,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            Create Password Hash And Password Salt
+            </summary>
+            <param name="password">Password</param>
+            <param name="passwordHash">Out - Password Hash</param>
+            <param name="passwordSalt">Out - Password Salt</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.IsPasswordVerified(System.String,System.Byte[],System.Byte[])">
+            <summary>
+            Verify provided password is match with password hash and salt
+            </summary>
+            <param name="password">Password</param>
+            <param name="passwordHash">Password Hash</param>
+            <param name="passwordSalt">Password Salt</param>
+            <returns>If password matches Password Hash and Password Salt then retuns True</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.GenarateTokenViewModelForUser(FastFoodOnline.Models.User)">
+            <summary>
+            Genarate Token For User
+            </summary>
+            <param name="user">User Details</param>
+            <returns>TokenViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.AuthenticateUsernameAsync(System.String)">
+            <summary>
+            Check weather given username has reserved by another user - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>If username is avalable then return True</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.LoginUserByUsernameAndPassword(System.String,System.String)">
+            <summary>
+            Authenticate Username and Password - Async
+            For Login
+            </summary>
+            <param name="username">Username</param>
+            <param name="password">Plain text password</param>
+            <returns>TokenViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.AuthenticateService.RegisterUserAsync(FastFoodOnline.Resources.ViewModels.UserViewModel,System.String)">
+            <summary>
+            Register User - Async
+            </summary>
+            <param name="userViewModel">UserViewModel</param>
+            <param name="password">Password</param>
+            <returns>Is user Registered or not</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.FoodService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.FoodService.GetAllFoodViewModelsAsync">
+            <summary>
+            Get All FoodViewModels - Async
+            </summary>
+            <returns>IEnumerable of FoodViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.FoodService.GetFoodViewModelGetByIdAsync(System.Int32)">
+            <summary>
+            Get FoodViewModel By Id - Async
+            </summary>
+            <param name="id">FoodViewModel Id</param>
+            <returns>FoodViewModels</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentMethodService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentMethodService.GetAllPaymentMethodsAsync">
+            <summary>
+            Get All Payment Methods - Async
+            </summary>
+            <returns>IEnumerable of PaymentMethod</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentService.GetPaymentViewModelsByUserIdAsync(System.Int32)">
+            <summary>
+            Get Payment By User Id - Async
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>IEnumerable of PaymentViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentService.GetPaymentViewModelByIdAsync(System.Int32)">
+            <summary>
+            Get Payment By Id - Async
+            </summary>
+            <param name="id">Payment Id</param>
+            <returns>PaymentViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.PaymentService.AddPaymentViewModelAsync(FastFoodOnline.Resources.ViewModels.PaymentViewModel)">
+            <summary>
+            Add Payment - Async
+            </summary>
+            <param name="paymentViewModel">New PaymentViewModel</param>
+            <returns>Added Payment</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.UserService.#ctor(FastFoodOnline.Core.DataAccess.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="unitOfWork">UnitOfWork Dependancy</param>
+            <param name="mapper">Auto Mapper Injection</param>
+        </member>
+        <member name="M:FastFoodOnline.Services.UserService.GetAllUserViewModelsAsync">
+            <summary>
+            Get All UserViewModel - Async
+            </summary>
+            <returns>IEnumerable of UserViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.UserService.GetUserViewModelByIdAsync(System.Int32)">
+            <summary>
+            Get UserViewModel By Id - Async
+            </summary>
+            <param name="id">User Id</param>
+            <returns>UserViewModel</returns>
+        </member>
+        <member name="M:FastFoodOnline.Services.UserService.GetUserViewModelByUsernameAsync(System.String)">
+            <summary>
+            Get UserViewModel By Username - Async
+            </summary>
+            <param name="username">Username</param>
+            <returns>UserViewModel</returns>
+        </member>
+    </members>
+</doc>

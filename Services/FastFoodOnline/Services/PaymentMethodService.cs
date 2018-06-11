@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
 using FastFoodOnline.Core.Services;
@@ -13,7 +14,8 @@ namespace FastFoodOnline.Services
         /// Constructor
         /// </summary>
         /// <param name="unitOfWork">UnitOfWork Dependancy</param>
-        public PaymentMethodService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        /// <param name="mapper">Auto Mapper Injection</param>
+        public PaymentMethodService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         { }
 
         /// <summary>

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using FastFoodOnline.Core.Services;
-using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.User;
 using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -20,10 +17,8 @@ namespace FastFoodOnline.Controllers
     public class UserController : ControllerBase
     {
         #region Private Properties
-
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -32,12 +27,10 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="httpContextAccessor">HttpContextAccessor to Get Token details</param>
         /// <param name="userService">UserService</param>
-        /// <param name="mapper">Automapper</param>
-        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper)
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _userService = userService;
-            _mapper = mapper;
+            _userService.HttpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -51,7 +44,7 @@ namespace FastFoodOnline.Controllers
 
             try
             {
-                userResponse.UserViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(await _userService.GetAllUsersAsync());
+                userResponse.UserViewModels = await _userService.GetAllUserViewModelsAsync();
                 userResponse.Status = (int)HttpStatusCode.OK;
                 userResponse.IsSuccess = true;
             }
@@ -77,24 +70,12 @@ namespace FastFoodOnline.Controllers
 
             try
             {
-                string usernameByToken = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-                User user = await _userService.GetUserByUsernameAsync(username, usernameByToken);
-
-                if (user == null || user.Id <= 0)
+                userResponse.UserViewModels = new List<UserViewModel>()
                 {
-                    userResponse.Status = (int)HttpStatusCode.NoContent;
-                }
-                else
-                {
-                    userResponse.UserViewModels = new List<UserViewModel>()
-                    {
-                        _mapper.Map<User, UserViewModel>(user)
-                    };
+                    await _userService.GetUserViewModelByUsernameAsync(username)
+                };
 
-                    userResponse.Status = (int)HttpStatusCode.OK;
-                }
-
+                userResponse.Status = (int)HttpStatusCode.OK;
                 userResponse.IsSuccess = true;
             }
             catch (Exception ex)

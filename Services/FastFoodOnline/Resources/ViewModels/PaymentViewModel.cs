@@ -7,7 +7,8 @@ namespace FastFoodOnline.Resources.ViewModels
     {
         public int Id { get; set; }
         [Required]
-        public int PaymentMethodId { get; set; }
+        [StringLength(2)]
+        public string PaymentMethodCode { get; set; }
         [Required]
         public string ReferenceNumber { get; set; }
         public PaymentMethodViewModel PaymentMethodViewModel { get; set; }

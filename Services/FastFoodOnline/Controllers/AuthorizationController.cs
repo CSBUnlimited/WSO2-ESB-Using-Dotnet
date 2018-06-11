@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
 using FastFoodOnline.Core.Services;
-using FastFoodOnline.Models;
 using FastFoodOnline.Resources.DTOs.Authentication;
 using FastFoodOnline.Resources.DTOs.Login;
 using FastFoodOnline.Resources.DTOs.User;
-using FastFoodOnline.Resources.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodOnline.Controllers
@@ -19,7 +16,6 @@ namespace FastFoodOnline.Controllers
         #region Private Properties
 
         private readonly IAuthenticateService _authenticateService;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -27,11 +23,53 @@ namespace FastFoodOnline.Controllers
         /// Constructor
         /// </summary>
         /// <param name="authenticateService">AuthenticateService</param>
-        /// <param name="mapper">Automapper</param>
-        public AuthorizationController(IAuthenticateService authenticateService, IMapper mapper)
+        public AuthorizationController(IAuthenticateService authenticateService)
         {
             _authenticateService = authenticateService;
-            _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Check Username is Taken by Another user or not - Async
+        /// </summary>
+        /// <param name="username">Username that request</param>
+        /// <returns>UserResponse</returns>
+        [HttpGet("{username}", Name = "CheckUsernameAvailableAsync")]
+        public async Task<IActionResult> CheckUsernameAvailableAsync(string username)
+        {
+            UserResponse userResponse = new UserResponse();
+
+            try
+            {
+                if (username.Length > 6)
+                {
+                    bool isUserExists = await _authenticateService.AuthenticateUsernameAsync(username);
+
+                    if (isUserExists)
+                    {
+                        userResponse.Status = (int)HttpStatusCode.Found;
+                        userResponse.Message = "Username already taken";
+                    }
+                    else
+                    {
+                        userResponse.IsSuccess = true;
+                        userResponse.Status = (int)HttpStatusCode.OK;
+                        userResponse.Message = "Username available";
+                    }
+                }
+                else
+                {
+                    userResponse.Status = (int)HttpStatusCode.BadRequest;
+                    userResponse.Message = "Username must have at least 6 characters";
+                }
+            }
+            catch (Exception ex)
+            {
+                userResponse.Message = ex.Message;
+                userResponse.MessageDetails = ex.ToString();
+                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.BadRequest;
+            }
+
+            return StatusCode(userResponse.Status, userResponse);
         }
 
         /// <summary>
@@ -48,15 +86,13 @@ namespace FastFoodOnline.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    User user = await _authenticateService.LoginUserByUsernameAndPassword(loginRequest.LoginViewModel.Username, loginRequest.LoginViewModel.Password);
+                    authenticationResponse.TokenViewModel = await _authenticateService.LoginUserByUsernameAndPassword(loginRequest.LoginViewModel.Username, loginRequest.LoginViewModel.Password);
 
-                    if (user == null || user.Id <= 0)
+                    if (authenticationResponse.TokenViewModel == null)
                     {
                         authenticationResponse.Status = (int)HttpStatusCode.Unauthorized;
                         throw new Exception("Invalid username or password");
                     }
-                    
-                    authenticationResponse.AuthenticationToken = _authenticateService.GenarateTokenForUser(user);
 
                     authenticationResponse.IsSuccess = true;
                     authenticationResponse.Status = (int)HttpStatusCode.OK;
@@ -72,7 +108,7 @@ namespace FastFoodOnline.Controllers
             {
                 authenticationResponse.Message = ex.Message;
                 authenticationResponse.MessageDetails = ex.ToString();
-                authenticationResponse.Status = authenticationResponse.Status > 0 ? authenticationResponse.Status : (int)HttpStatusCode.Conflict;
+                authenticationResponse.Status = authenticationResponse.Status > 0 ? authenticationResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(authenticationResponse.Status, authenticationResponse);
@@ -95,16 +131,24 @@ namespace FastFoodOnline.Controllers
                     userRequest.UserViewModel.LoyaltyPoints = 0;
                     userRequest.UserViewModel.RegisteredDate = DateTime.Now;
 
-                    bool isRegistered = await _authenticateService.RegisterUserAsync(_mapper.Map<UserViewModel, User>(userRequest.UserViewModel), userRequest.Password);
-
-                    if (!isRegistered)
+                    if (await _authenticateService.AuthenticateUsernameAsync(userRequest.UserViewModel.Username))
                     {
                         userResponse.Status = (int)HttpStatusCode.BadRequest;
-                        throw new Exception("Username already taken or somthing went wrong");
+                        throw new Exception("Username already taken.");
                     }
 
-                    userResponse.IsSuccess = true;
-                    userResponse.Status = (int)HttpStatusCode.OK;
+                    bool isRegistered = await _authenticateService.RegisterUserAsync(userRequest.UserViewModel, userRequest.Password);
+
+                    if (isRegistered)
+                    {
+                        userResponse.IsSuccess = true;
+                        userResponse.Status = (int)HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        userResponse.Status = (int)HttpStatusCode.InternalServerError;
+                        userResponse.Message = "Somthing went wrong";
+                    }
                 }
                 else
                 {
@@ -117,7 +161,7 @@ namespace FastFoodOnline.Controllers
             {
                 userResponse.Message = ex.Message;
                 userResponse.MessageDetails = ex.ToString();
-                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.Conflict;
+                userResponse.Status = userResponse.Status > 0 ? userResponse.Status : (int)HttpStatusCode.BadRequest;
             }
 
             return StatusCode(userResponse.Status, userResponse);

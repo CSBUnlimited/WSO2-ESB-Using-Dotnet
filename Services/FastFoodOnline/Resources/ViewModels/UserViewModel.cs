@@ -8,6 +8,7 @@ namespace FastFoodOnline.Resources.ViewModels
     {
         [Required]
         [MinLength(6)]
+        [RegularExpression(@"^[a-zA-Z0-9_.-]+$", ErrorMessage = "Only allowed alphanumeric characters, '.' and '-' for username")]
         public string Username { get; set; }
         [Required]
         public string FirstName { get; set; }
@@ -21,6 +22,7 @@ namespace FastFoodOnline.Resources.ViewModels
         public string Mobile { get; set; }
         [Required]
         [StringLength(1)]
+        [RegularExpression(@"^[MF]{1}$", ErrorMessage = "Only allow 'M' for male, F for female")]
         public string Gender { get; set; }
         public float LoyaltyPoints { get; set; }
         public DateTime RegisteredDate { get; set; }

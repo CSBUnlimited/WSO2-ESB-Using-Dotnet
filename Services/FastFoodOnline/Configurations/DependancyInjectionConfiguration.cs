@@ -9,8 +9,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FastFoodOnline.Configurations
 {
+    /// <summary>
+    /// Dependancy Injection Container - Extention
+    /// </summary>
     public static class DependancyInjectionConfiguration
     {
+        /// <summary>
+        /// Register Dependancies
+        /// </summary>
+        /// <param name="services">Service Collection</param>
+        /// <returns>Service Collection</returns>
         public static IServiceCollection RegisterDependancies(this IServiceCollection services)
         {
             #region Other - Dependancies

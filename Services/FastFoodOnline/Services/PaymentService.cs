@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
 using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
+using FastFoodOnline.Resources.ViewModels;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FastFoodOnline.Services
@@ -15,36 +18,36 @@ namespace FastFoodOnline.Services
         /// Constructor
         /// </summary>
         /// <param name="unitOfWork">UnitOfWork Dependancy</param>
-        public PaymentService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        /// <param name="mapper">Auto Mapper Injection</param>
+        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         { }
 
         /// <summary>
         /// Get Payment By User Id - Async
         /// </summary>
         /// <param name="userId">User Id</param>
-        /// <returns>IEnumerable of Payment</returns>
-        public async Task<IEnumerable<Payment>> GetPaymentByUserIdAsync(int userId)
+        /// <returns>IEnumerable of PaymentViewModel</returns>
+        public async Task<IEnumerable<PaymentViewModel>> GetPaymentViewModelsByUserIdAsync(int userId)
         {
-            return await UnitOfWork.PaymentRepository.GetPaymentByUserIdAsync(userId);
+            return Mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentViewModel>>(await UnitOfWork.PaymentRepository.GetPaymentByUserIdAsync(userId));
         }
 
         /// <summary>
         /// Get Payment By Id - Async
         /// </summary>
         /// <param name="id">Payment Id</param>
-        /// <returns>Payment</returns>
-        public async Task<Payment> GetPaymentByIdAsync(int id)
+        /// <returns>PaymentViewModel</returns>
+        public async Task<PaymentViewModel> GetPaymentViewModelByIdAsync(int id)
         {
-            return await UnitOfWork.PaymentRepository.GetPaymentByIdAsync(id);
+            return Mapper.Map<Payment, PaymentViewModel>(await UnitOfWork.PaymentRepository.GetPaymentByIdAsync(id));
         }
 
         /// <summary>
         /// Add Payment - Async
         /// </summary>
-        /// <param name="payment">New Payment</param>
-        /// <param name="username">User who done the payment</param>
+        /// <param name="paymentViewModel">New PaymentViewModel</param>
         /// <returns>Added Payment</returns>
-        public async Task<Payment> AddPaymentAsync(Payment payment, string username)
+        public async Task<PaymentViewModel> AddPaymentViewModelAsync(PaymentViewModel paymentViewModel)
         {
             using (IDbContextTransaction transaction = await UnitOfWork.BeginTransactionAsync())
             {
@@ -53,22 +56,30 @@ namespace FastFoodOnline.Services
                     // need change
                     // Here we need to check the payment referenece from their api
 
+                    string username = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
                     User user = await UnitOfWork.UserRepository.GetUserByUsernameAsync(username);
                     if (user == null)
                     {
                         throw new Exception("Invalid user or user not found.");
                     }
 
-                    payment.UserId = user.Id;
+                    PaymentMethod paymentMethod = await UnitOfWork.PaymentMethodRepository.GetPaymentMethodByCodeAsync(paymentViewModel.PaymentMethodCode);
+                    if (paymentMethod == null)
+                    {
+                        throw new Exception("Invalid payment method code.");
+                    }
 
-                    PaymentMethod paymentMethod = await UnitOfWork.PaymentMethodRepository.GetPaymentMethodByIdAsync(payment.PaymentMethodId);
+                    Payment payment = Mapper.Map<PaymentViewModel, Payment>(paymentViewModel);
+
+                    // Set Payment's missing parts
+                    payment.UserId = user.Id;
+                    payment.PaymentMethodId = paymentMethod.Id;
 
                     await UnitOfWork.PaymentRepository.AddPaymentAsync(payment);
-                    await UnitOfWork.CompleteAsync();
-                    
-                    user.LoyaltyPoints += payment.EarnedLoyaltyPoints;
-                    await UnitOfWork.CompleteAsync();
 
+                    //Update user's loyalty points
+                    user.LoyaltyPoints += payment.EarnedLoyaltyPoints;
 
                     string message = $"{ ((user.Gender == Gender.Male) ? "Mr" : "Miss/ Mrs") }. { user.FirstName }, you payed Rs.{ string.Format("{0:0.00}", payment.Amount) } successfully by { paymentMethod.Name } on { payment.PayedDateTime }";
 
@@ -92,11 +103,15 @@ namespace FastFoodOnline.Services
                     await UnitOfWork.SentMessageRepository.AddSentMessageAsync(sentMessage);
 
                     await UnitOfWork.CompleteAsync();
-
                     transaction.Commit();
 
                     payment.PaymentMethod = paymentMethod;
-                    return payment;
+
+                    // Create new Payment ViewModel
+                    PaymentViewModel addedPaymentViewModel = Mapper.Map<Payment, PaymentViewModel>(payment);
+                    addedPaymentViewModel.PaymentMethodCode = paymentMethod.Code;
+
+                    return addedPaymentViewModel;
                 }
                 catch
                 {

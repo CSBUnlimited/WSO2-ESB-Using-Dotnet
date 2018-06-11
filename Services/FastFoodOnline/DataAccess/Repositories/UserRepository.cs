@@ -18,19 +18,6 @@ namespace FastFoodOnline.DataAccess.Repositories
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await DbContext.Users
-                .Select(u => new User
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Gender = u.Gender,
-                    Email = u.Email,
-                    Mobile = u.Mobile,
-                    LoyaltyPoints = u.LoyaltyPoints,
-                    RegisteredDate = u.RegisteredDate,
-                    IsActive = u.IsActive
-                })
                 .Where(u => u.IsActive == true)
                 .ToListAsync();
         }
@@ -62,21 +49,7 @@ namespace FastFoodOnline.DataAccess.Repositories
         /// <returns>User</returns>
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await DbContext.Users
-                .Select(u => new User
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Gender = u.Gender,
-                    Email = u.Email,
-                    Mobile = u.Mobile,
-                    LoyaltyPoints = u.LoyaltyPoints,
-                    RegisteredDate = u.RegisteredDate,
-                    IsActive = u.IsActive
-                })
-                .SingleOrDefaultAsync(u => u.Id == id && u.IsActive == true);
+            return await DbContext.Users.SingleOrDefaultAsync(u => u.Id == id && u.IsActive == true);
         }
 
         /// <summary>
@@ -90,22 +63,6 @@ namespace FastFoodOnline.DataAccess.Repositories
                 .Include(u => u.Payments)
                 .Include(u => u.SentMessages)
                 .Include(u => u.SentEmails)
-                .Select(u => new User
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Gender = u.Gender,
-                    Email = u.Email,
-                    Mobile = u.Mobile,
-                    LoyaltyPoints = u.LoyaltyPoints,
-                    RegisteredDate = u.RegisteredDate,
-                    Payments = u.Payments,
-                    SentMessages = u.SentMessages,
-                    SentEmails = u.SentEmails,
-                    IsActive = u.IsActive
-                })
                 .SingleOrDefaultAsync(u => u.Id == id && u.IsActive == true);
         }
 
@@ -117,19 +74,6 @@ namespace FastFoodOnline.DataAccess.Repositories
         public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await DbContext.Users
-                .Select(u => new User
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Gender = u.Gender,
-                    Email = u.Email,
-                    Mobile = u.Mobile,
-                    LoyaltyPoints = u.LoyaltyPoints,
-                    RegisteredDate = u.RegisteredDate,
-                    IsActive = u.IsActive
-                })
                 .SingleOrDefaultAsync(u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
         }
 
@@ -144,22 +88,6 @@ namespace FastFoodOnline.DataAccess.Repositories
                 .Include(u => u.Payments)
                 .Include(u => u.SentMessages)
                 .Include(u => u.SentEmails)
-                .Select(u => new User
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Gender = u.Gender,
-                    Email = u.Email,
-                    Mobile = u.Mobile,
-                    LoyaltyPoints = u.LoyaltyPoints,
-                    RegisteredDate = u.RegisteredDate,
-                    Payments = u.Payments,
-                    SentMessages = u.SentMessages,
-                    SentEmails = u.SentEmails,
-                    IsActive = u.IsActive
-                })
                 .SingleOrDefaultAsync(u => u.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) && u.IsActive == true);
         }
     }

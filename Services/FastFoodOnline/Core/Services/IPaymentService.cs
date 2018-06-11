@@ -1,32 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FastFoodOnline.Core.Base.Services;
-using FastFoodOnline.Models;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Core.Services
 {
     public interface IPaymentService : IBaseService
     {
         /// <summary>
-        /// Get Payment By User Id - Async
+        /// Get PaymentViewModels By User Id - Async
         /// </summary>
         /// <param name="userId">User Id</param>
-        /// <returns>IEnumerable of Payment</returns>
-        Task<IEnumerable<Payment>> GetPaymentByUserIdAsync(int userId);
+        /// <returns>IEnumerable of PaymentViewModel</returns>
+        Task<IEnumerable<PaymentViewModel>> GetPaymentViewModelsByUserIdAsync(int userId);
 
         /// <summary>
-        /// Get Payment By Id - Async
+        /// Get PaymentViewModel By Id - Async
         /// </summary>
         /// <param name="id">Payment Id</param>
-        /// <returns>Payment</returns>
-        Task<Payment> GetPaymentByIdAsync(int id);
+        /// <returns>PaymentViewModel</returns>
+        Task<PaymentViewModel> GetPaymentViewModelByIdAsync(int id);
 
         /// <summary>
         /// Add Payment - Async
         /// </summary>
-        /// <param name="payment">New Payment</param>
-        /// <param name="username">User who done the payment</param>
-        /// <returns>Added Payment</returns>
-        Task<Payment> AddPaymentAsync(Payment payment, string username);
+        /// <param name="paymentViewModel">New PaymentViewModel</param>
+        /// <returns>Added PaymentViewModel</returns>
+        Task<PaymentViewModel> AddPaymentViewModelAsync(PaymentViewModel paymentViewModel);
     }
 }

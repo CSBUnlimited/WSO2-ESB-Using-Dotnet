@@ -4,14 +4,23 @@ using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Configurations
 {
+    /// <summary>
+    /// AutoMapper Profile Configuration
+    /// </summary>
     public class AutoMapperProfileConfiguration : Profile
     {
+        /// <summary>
+        /// AutoMapperProfileConfiguration - Constructor
+        /// </summary>
         public AutoMapperProfileConfiguration()
         {
             CreateMapsModelsToViewModels();
             CreateMapViewModelsToModels();
         }
 
+        /// <summary>
+        /// How to Map Models to ViewModels
+        /// </summary>
         private void CreateMapsModelsToViewModels()
         {
             CreateMap<Food, FoodViewModel>();
@@ -35,6 +44,9 @@ namespace FastFoodOnline.Configurations
                 .ForMember(uvm => uvm.SentMessageViewModel, opt => opt.MapFrom(u => u.SentMessages));
         }
 
+        /// <summary>
+        /// How to Map ViewModels to Models
+        /// </summary>
         private void CreateMapViewModelsToModels()
         {
             CreateMap<UserViewModel, User>()

@@ -1,9 +1,10 @@
 ﻿using FastFoodOnline.Base.DTOs;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Resources.DTOs.Authentication
 {
     public class AuthenticationResponse : BaseResponse
     {
-        public string AuthenticationToken { get; set; }
+        public TokenViewModel TokenViewModel { get; set; }
     }
 }

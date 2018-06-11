@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
 using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Services
 {
@@ -13,26 +15,27 @@ namespace FastFoodOnline.Services
         /// Constructor
         /// </summary>
         /// <param name="unitOfWork">UnitOfWork Dependancy</param>
-        public FoodService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        /// <param name="mapper">Auto Mapper Injection</param>
+        public FoodService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         { }
 
         /// <summary>
-        /// Get All Foods - Async
+        /// Get All FoodViewModels - Async
         /// </summary>
-        /// <returns>IEnumerable of Food</returns>
-        public async Task<IEnumerable<Food>> GetAllFoodsAsync()
+        /// <returns>IEnumerable of FoodViewModel</returns>
+        public async Task<IEnumerable<FoodViewModel>> GetAllFoodViewModelsAsync()
         {
-            return await UnitOfWork.FoodRepository.GetAllFoodsAsync();
+            return Mapper.Map<IEnumerable<Food>, IEnumerable<FoodViewModel>>(await UnitOfWork.FoodRepository.GetAllFoodsAsync());
         }
 
         /// <summary>
-        /// Get Food By Id - Async
+        /// Get FoodViewModel By Id - Async
         /// </summary>
-        /// <param name="id">Food Id</param>
-        /// <returns>Food</returns>
-        public async Task<Food> GetFoodByIdAsync(int id)
+        /// <param name="id">FoodViewModel Id</param>
+        /// <returns>FoodViewModels</returns>
+        public async Task<FoodViewModel> GetFoodViewModelGetByIdAsync(int id)
         {
-            return await UnitOfWork.FoodRepository.GetFoodByIdAsync(id);
+            return Mapper.Map<Food, FoodViewModel>(await UnitOfWork.FoodRepository.GetFoodByIdAsync(id));
         }
     }
 }

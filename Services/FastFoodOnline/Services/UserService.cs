@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using FastFoodOnline.Base.Services;
 using FastFoodOnline.Core.DataAccess;
 using FastFoodOnline.Core.Services;
 using FastFoodOnline.Models;
+using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Services
 {
@@ -14,43 +17,45 @@ namespace FastFoodOnline.Services
         /// Constructor
         /// </summary>
         /// <param name="unitOfWork">UnitOfWork Dependancy</param>
-        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        /// <param name="mapper">Auto Mapper Injection</param>
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         { }
 
         /// <summary>
-        /// Get All Users - Async
+        /// Get All UserViewModel - Async
         /// </summary>
-        /// <returns>IEnumerable of User</returns>
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        /// <returns>IEnumerable of UserViewModel</returns>
+        public async Task<IEnumerable<UserViewModel>> GetAllUserViewModelsAsync()
         {
-            return await UnitOfWork.UserRepository.GetAllUsersAsync();
+            return Mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(await UnitOfWork.UserRepository.GetAllUsersAsync());
         }
 
         /// <summary>
-        /// Get User By Id - Async
+        /// Get UserViewModel By Id - Async
         /// </summary>
         /// <param name="id">User Id</param>
-        /// <returns>User</returns>
-        public async Task<User> GetUserByIdAsync(int id)
+        /// <returns>UserViewModel</returns>
+        public async Task<UserViewModel> GetUserViewModelByIdAsync(int id)
         {
-            return await UnitOfWork.UserRepository.GetUserDetailsByIdAsync(id);
+            return Mapper.Map<User, UserViewModel>(await UnitOfWork.UserRepository.GetUserDetailsByIdAsync(id));
         }
 
         /// <summary>
-        /// Get User By Username - Async
+        /// Get UserViewModel By Username - Async
         /// </summary>
         /// <param name="username">Username</param>
-        /// <param name="requestedUserUsername"></param>
-        /// <returns>User</returns>
-        public async Task<User> GetUserByUsernameAsync(string username, string requestedUserUsername)
+        /// <returns>UserViewModel</returns>
+        public async Task<UserViewModel> GetUserViewModelByUsernameAsync(string username)
         {
+            string requestedUserUsername = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (username.Equals(requestedUserUsername, StringComparison.InvariantCultureIgnoreCase))
             {
-                return await UnitOfWork.UserRepository.GetUserDetailsByUsernameAsync(username);
+                return Mapper.Map<User, UserViewModel>(await UnitOfWork.UserRepository.GetUserDetailsByUsernameAsync(username));
             }
             else
             {
-                return await UnitOfWork.UserRepository.GetUserByUsernameAsync(username);
+                return Mapper.Map<User, UserViewModel>(await UnitOfWork.UserRepository.GetUserByUsernameAsync(username));
             }
         }
     }

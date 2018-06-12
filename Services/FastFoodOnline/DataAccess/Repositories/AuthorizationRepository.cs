@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Repositories
 {
+    /// <summary>
+    /// Authorization related data
+    /// </summary>
     public class AuthorizationRepository : BaseRepository, IAuthorizationRepository
     {
         /// <summary>

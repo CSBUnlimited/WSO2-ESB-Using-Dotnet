@@ -2,6 +2,9 @@
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// Food Model
+    /// </summary>
     public class Food
     {
         public int Id { get; set; }

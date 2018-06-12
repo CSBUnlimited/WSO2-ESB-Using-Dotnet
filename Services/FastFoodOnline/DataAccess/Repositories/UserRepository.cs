@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Repositories
 {
+    /// <summary>
+    /// User related data
+    /// </summary>
     public class UserRepository : BaseRepository, IUserRepository
     {
         /// <summary>

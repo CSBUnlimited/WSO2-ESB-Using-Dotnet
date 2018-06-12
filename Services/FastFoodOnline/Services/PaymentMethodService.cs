@@ -8,6 +8,9 @@ using FastFoodOnline.Models;
 
 namespace FastFoodOnline.Services
 {
+    /// <summary>
+    /// PaymentMethod related Services
+    /// </summary>
     public class PaymentMethodService : BaseService, IPaymentMethodService
     {
         /// <summary>

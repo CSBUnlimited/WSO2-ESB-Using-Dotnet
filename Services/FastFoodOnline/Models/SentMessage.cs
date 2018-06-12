@@ -2,6 +2,9 @@
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// SentMessage Model
+    /// </summary>
     public class SentMessage
     {
         public int Id { get; set; }

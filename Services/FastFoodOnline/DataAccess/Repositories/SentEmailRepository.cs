@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Repositories
 {
+    /// <summary>
+    /// Sent Email related data
+    /// </summary>
     public class SentEmailRepository : BaseRepository, ISentEmailRepository
     {
         /// <summary>

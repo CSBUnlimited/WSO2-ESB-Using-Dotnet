@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FastFoodOnline.DataAccess.Persistence.DatabaseTableConfiguration
 {
+    /// <summary>
+    /// SentEmails Table - Configuration
+    /// </summary>
     public class SentEmailsTableConfiguration : IEntityTypeConfiguration<SentEmail>
     {
+        /// <summary>
+        /// Configure
+        /// </summary>
+        /// <param name="builder">EntityTypeBuilder</param>
         public void Configure(EntityTypeBuilder<SentEmail> builder)
         {
             builder.HasOne(se => se.Payment).WithOne(p => p.SentEmail).IsRequired();

@@ -11,6 +11,9 @@ using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Services
 {
+    /// <summary>
+    /// User related Services
+    /// </summary>
     public class UserService : BaseService, IUserService
     {
         /// <summary>

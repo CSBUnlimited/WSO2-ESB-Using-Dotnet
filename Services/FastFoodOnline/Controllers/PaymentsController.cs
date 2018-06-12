@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FastFoodOnline.Controllers
 {
     /// <summary>
-    /// Provide Payment realated Services
+    /// Provide Payment realated End Points
     /// </summary>
     [Authorize]
     [ApiController]
@@ -43,6 +43,9 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="paymentRequest">FromBody - PaymentRequest</param>
         /// <returns>PaymentResponse</returns>
+        /// <response code="200">OK. Return PaymentResponse</response>
+        /// <response code="400">Bad request by client</response>
+        /// <response code="401">Request unauthorized</response>
         [HttpPost(Name = "AddPaymentAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

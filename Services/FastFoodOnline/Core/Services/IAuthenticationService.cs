@@ -4,7 +4,10 @@ using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Core.Services
 {
-    public interface IAuthenticateService : IBaseService
+    /// <summary>
+    /// Authentication related Services - Interface
+    /// </summary>
+    public interface IAuthenticationService : IBaseService
     {
         /// <summary>
         /// Check weather given username has reserved by another user - Async

@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Repositories
 {
+    /// <summary>
+    /// Food related data
+    /// </summary>
     public class FoodRepository : BaseRepository, IFoodRepository
     {
         /// <summary>

@@ -2,6 +2,9 @@
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// SentEmail Model
+    /// </summary>
     public class SentEmail
     {
         public int Id { get; set; }

@@ -9,6 +9,9 @@ using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Services
 {
+    /// <summary>
+    /// Food related Services
+    /// </summary>
     public class FoodService : BaseService, IFoodService
     {
         /// <summary>

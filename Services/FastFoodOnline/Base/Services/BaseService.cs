@@ -6,12 +6,27 @@ using Microsoft.Extensions.Configuration;
 
 namespace FastFoodOnline.Base.Services
 {
+    /// <summary>
+    /// Common for all Services
+    /// </summary>
     public abstract class BaseService : IBaseService
     {
+        /// <summary>
+        /// UnitOfWork for access repositories
+        /// </summary>
         protected readonly IUnitOfWork UnitOfWork;
+        /// <summary>
+        /// Auto Mapper 
+        /// </summary>
         protected readonly IMapper Mapper;
+        /// <summary>
+        /// Application Configurations
+        /// </summary>
         protected readonly IConfiguration Configuration;
 
+        /// <summary>
+        /// HttpContextAccessor - For get token related data
+        /// </summary>
         public IHttpContextAccessor HttpContextAccessor { protected get; set; }
 
         /// <summary>

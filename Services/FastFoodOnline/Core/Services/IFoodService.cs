@@ -5,6 +5,9 @@ using FastFoodOnline.Resources.ViewModels;
 
 namespace FastFoodOnline.Core.Services
 {
+    /// <summary>
+    /// Food related Services - Interface
+    /// </summary>
     public interface IFoodService : IBaseService
     {
         /// <summary>

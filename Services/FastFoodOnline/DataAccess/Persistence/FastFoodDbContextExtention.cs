@@ -1,15 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using FastFoodOnline.Core.DataAccess.Repositories;
 using FastFoodOnline.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Persistence
 {
+    /// <summary>
+    /// FastFoodDbContext - Extention
+    /// </summary>
     public static class FastFoodDbContextExtention
     {
+        /// <summary>
+        /// Do migrations and seed data
+        /// </summary>
+        /// <param name="context"></param>
         public static void InitializeDatabase(this FastFoodDbContext context)
         {
             // Perform database delete and create
@@ -22,6 +26,10 @@ namespace FastFoodOnline.DataAccess.Persistence
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Seed data to database
+        /// </summary>
+        /// <param name="context"></param>
         private static void SeedData(FastFoodDbContext context)
         {
             if (context.Users.Any())

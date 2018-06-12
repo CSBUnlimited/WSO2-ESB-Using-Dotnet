@@ -5,6 +5,9 @@ using FastFoodOnline.Models;
 
 namespace FastFoodOnline.Core.DataAccess.Repositories
 {
+    /// <summary>
+    /// PaymentMethod related data - Interface
+    /// </summary>
     public interface IPaymentMethodRepository : IBaseRepository
     {
         /// <summary>

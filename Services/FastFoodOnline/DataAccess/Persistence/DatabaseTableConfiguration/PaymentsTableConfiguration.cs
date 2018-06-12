@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FastFoodOnline.DataAccess.Persistence.DatabaseTableConfiguration
 {
+    /// <summary>
+    /// Payments Table - Configuration
+    /// </summary>
     public class PaymentsTableConfiguration : IEntityTypeConfiguration<Payment>
     {
+        /// <summary>
+        /// Configure
+        /// </summary>
+        /// <param name="builder">EntityTypeBuilder</param>
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.HasOne(p => p.User).WithMany(u => u.Payments).HasForeignKey(p => p.UserId).IsRequired();

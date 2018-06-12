@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FastFoodOnline.DataAccess.Persistence.DatabaseTableConfiguration
 {
+    /// <summary>
+    /// Users Table - Configuration
+    /// </summary>
     public class UsersTableConfiguration : IEntityTypeConfiguration<User>
     {
+        /// <summary>
+        /// Configure
+        /// </summary>
+        /// <param name="builder">EntityTypeBuilder</param>
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasIndex(u => u.Username).IsUnique();

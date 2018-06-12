@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FastFoodOnline.Services
 {
+    /// <summary>
+    /// Payment related Services
+    /// </summary>
     public class PaymentService : BaseService, IPaymentService
     {
         /// <summary>

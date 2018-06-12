@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// Payment Model
+    /// </summary>
     public class Payment
     {
         public int Id { get; set; }

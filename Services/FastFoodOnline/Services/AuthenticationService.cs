@@ -15,7 +15,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace FastFoodOnline.Services
 {
-    public class AuthenticateService : BaseService, IAuthenticateService
+    /// <summary>
+    /// Authentication related Services
+    /// </summary>
+    public class AuthenticationService : BaseService, IAuthenticationService
     {
         /// <summary>
         /// Constructor
@@ -23,7 +26,7 @@ namespace FastFoodOnline.Services
         /// <param name="unitOfWork">UnitOfWork Dependancy</param>
         /// <param name="configuration">Configutaions of Application</param>
         /// <param name="mapper">Auto Mapper Injection</param>
-        public AuthenticateService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration) : base(unitOfWork, mapper, configuration)
+        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration) : base(unitOfWork, mapper, configuration)
         { }
 
 

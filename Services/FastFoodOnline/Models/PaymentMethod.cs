@@ -2,6 +2,9 @@
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// PaymentMethod Model
+    /// </summary>
     public class PaymentMethod
     {
         public int Id { get; set; }

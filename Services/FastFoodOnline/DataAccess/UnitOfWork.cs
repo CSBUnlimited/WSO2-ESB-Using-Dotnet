@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FastFoodOnline.DataAccess
 {
+    /// <summary>
+    /// Repository data collection
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         #region Private Properties
@@ -19,16 +22,48 @@ namespace FastFoodOnline.DataAccess
 
         #region Repositories
 
+        /// <summary>
+        /// Food related data
+        /// </summary>
         public IFoodRepository FoodRepository { get; }
+        /// <summary>
+        /// Payment related data
+        /// </summary>
         public IPaymentRepository PaymentRepository { get; }
+        /// <summary>
+        /// User related data
+        /// </summary>
         public IUserRepository UserRepository { get; }
+        /// <summary>
+        /// PaymentMethod related data
+        /// </summary>
         public IPaymentMethodRepository PaymentMethodRepository { get; }
+        /// <summary>
+        /// SentEmail related data
+        /// </summary>
         public ISentEmailRepository SentEmailRepository { get; }
+        /// <summary>
+        /// SentMessage related data
+        /// </summary>
         public ISentMessageRepository SentMessageRepository { get; }
+        /// <summary>
+        /// Authorization related data
+        /// </summary>
         public IAuthorizationRepository AuthorizationRepository { get; }
 
         #endregion
 
+        /// <summary>
+        /// Counstructor
+        /// </summary>
+        /// <param name="fastFoodDbContext">FastFoodDbContext - Injection</param>
+        /// <param name="foodRepository">FoodRepository - Injection</param>
+        /// <param name="paymentRepository">PaymentRepository - Injection</param>
+        /// <param name="userRepository">UserRepository - Injection</param>
+        /// <param name="paymentMethodRepository">PaymentMethodRepository - Injection</param>
+        /// <param name="sentEmailRepository">SentEmailRepository - Injection</param>
+        /// <param name="sentMessageRepository">SentMessageRepository - Injection</param>
+        /// <param name="authorizationRepository">AuthorizationRepository - Injection</param>
         public UnitOfWork
         (
             FastFoodDbContext fastFoodDbContext,
@@ -51,7 +86,7 @@ namespace FastFoodOnline.DataAccess
             SentMessageRepository = sentMessageRepository;
             AuthorizationRepository = authorizationRepository;
 
-            //Setup the DbContext
+            // Setup the DbContext
             FoodRepository.DbContext = _fastFoodDbContext;
             PaymentRepository.DbContext = _fastFoodDbContext;
             UserRepository.DbContext = _fastFoodDbContext;

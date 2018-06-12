@@ -11,7 +11,7 @@ namespace FastFoodOnline.Configurations
     public static class SwaggerConfiguration
     {
         /// <summary>
-        /// Swagger Configure Services
+        /// Swagger Configure Services - Extention Method
         /// </summary>
         /// <param name="services">Service Collection</param>
         /// <returns>Service Collection</returns>
@@ -55,7 +55,7 @@ namespace FastFoodOnline.Configurations
         }
 
         /// <summary>
-        /// Swagger Configure
+        /// Swagger Configure - Extention Method
         /// </summary>
         /// <param name="app">Application Builder</param>
         /// <returns>Application Builder</returns>

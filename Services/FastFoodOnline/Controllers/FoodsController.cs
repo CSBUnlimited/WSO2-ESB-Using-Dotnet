@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FastFoodOnline.Controllers
 {
     /// <summary>
-    /// Provide Food realated Services
+    /// Provide Food realated End Points
     /// </summary>
     [Authorize]
     [ApiController]
@@ -40,6 +40,9 @@ namespace FastFoodOnline.Controllers
         /// Get All Foods - Async
         /// </summary>
         /// <returns>FoodResponse</returns>
+        /// <response code="200">OK. Return FoodReponse</response>
+        /// <response code="400">Bad request by client</response>
+        /// <response code="401">Request unauthorized</response>
         [HttpGet(Name = "GetFoodsAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -69,6 +72,9 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="id">Food Id</param>
         /// <returns>FoodResponse</returns>
+        /// <response code="200">OK. Return FoodReponse</response>
+        /// <response code="400">Bad request by client</response>
+        /// <response code="401">Request unauthorized</response>
         [HttpGet("{id}", Name = "GetFoodByIdAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

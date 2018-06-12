@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FastFoodOnline.Controllers
 {
     /// <summary>
-    /// Provide Authorization realated Services
+    /// Provide Authorization realated End Points
     /// </summary>
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -18,17 +18,17 @@ namespace FastFoodOnline.Controllers
     {
         #region Private Properties
 
-        private readonly IAuthenticateService _authenticateService;
+        private readonly IAuthenticationService _authenticationService;
 
         #endregion
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="authenticateService">AuthenticateService</param>
-        public AuthorizationController(IAuthenticateService authenticateService)
+        /// <param name="authenticationService">AuthenticateService</param>
+        public AuthorizationController(IAuthenticationService authenticationService)
         {
-            _authenticateService = authenticateService;
+            _authenticationService = authenticationService;
         }
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace FastFoodOnline.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CheckUsernameAvailableAsync(string username)
         {
-            UserResponse userResponse = new UserResponse();
+            AuthenticationResponse userResponse = new AuthenticationResponse();
 
             try
             {
                 if (username.Length > 6)
                 {
-                    bool isUserExists = await _authenticateService.AuthenticateUsernameAsync(username);
+                    bool isUserExists = await _authenticationService.AuthenticateUsernameAsync(username);
 
                     if (isUserExists)
                     {
@@ -86,6 +86,9 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="loginRequest">FromBody - LoginRequest</param>
         /// <returns>UserResponse</returns>
+        /// <response code="200">Valid credtials. Returns AuthenticationResponse</response>
+        /// <response code="400">Bad request by client</response>
+        /// <response code="401">Invalid credentials</response>
         [HttpPost(Name = "UserLoginAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -98,7 +101,7 @@ namespace FastFoodOnline.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    authenticationResponse.TokenViewModel = await _authenticateService.LoginUserByUsernameAndPassword(loginRequest.LoginViewModel.Username, loginRequest.LoginViewModel.Password);
+                    authenticationResponse.TokenViewModel = await _authenticationService.LoginUserByUsernameAndPassword(loginRequest.LoginViewModel.Username, loginRequest.LoginViewModel.Password);
 
                     if (authenticationResponse.TokenViewModel == null)
                     {
@@ -131,13 +134,16 @@ namespace FastFoodOnline.Controllers
         /// </summary>
         /// <param name="userRequest">FromBody - UserRequest</param>
         /// <returns>UserResponse</returns>
+        /// <response code="200">User registered</response>
+        /// <response code="400">Bad request by client</response>
+        /// <response code="500">Something went wrong from Server side</response>
         [HttpPost(Name = "UserRegisterationAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> UserRegisterationAsync([FromBody]UserRequest userRequest)
         {
-            UserResponse userResponse = new UserResponse();
+            AuthenticationResponse userResponse = new AuthenticationResponse();
 
             try
             {
@@ -146,13 +152,13 @@ namespace FastFoodOnline.Controllers
                     userRequest.UserViewModel.LoyaltyPoints = 0;
                     userRequest.UserViewModel.RegisteredDate = DateTime.Now;
 
-                    if (await _authenticateService.AuthenticateUsernameAsync(userRequest.UserViewModel.Username))
+                    if (await _authenticationService.AuthenticateUsernameAsync(userRequest.UserViewModel.Username))
                     {
                         userResponse.Status = (int)HttpStatusCode.BadRequest;
                         throw new Exception("Username already taken.");
                     }
 
-                    bool isRegistered = await _authenticateService.RegisterUserAsync(userRequest.UserViewModel, userRequest.Password);
+                    bool isRegistered = await _authenticationService.RegisterUserAsync(userRequest.UserViewModel, userRequest.Password);
 
                     if (isRegistered)
                     {

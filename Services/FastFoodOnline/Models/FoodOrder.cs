@@ -1,5 +1,8 @@
 ﻿namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// FoodOrder Model
+    /// </summary>
     public class FoodOrder
     {
         public int Id { get; set; }

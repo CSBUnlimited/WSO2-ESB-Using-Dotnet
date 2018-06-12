@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace FastFoodOnline.Models
 {
+    /// <summary>
+    /// User Model
+    /// </summary>
     public class User
     {
         public int Id { get; set; }

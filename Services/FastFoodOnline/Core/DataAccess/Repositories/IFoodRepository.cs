@@ -5,6 +5,9 @@ using FastFoodOnline.Models;
 
 namespace FastFoodOnline.Core.DataAccess.Repositories
 {
+    /// <summary>
+    /// Food related data - Interface
+    /// </summary>
     public interface IFoodRepository : IBaseRepository
     {
         /// <summary>

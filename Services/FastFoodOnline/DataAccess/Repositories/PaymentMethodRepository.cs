@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodOnline.DataAccess.Repositories
 {
+    /// <summary>
+    /// PaymentMethod related data
+    /// </summary>
     public class PaymentMethodRepository : BaseRepository, IPaymentMethodRepository
     {
         /// <summary>

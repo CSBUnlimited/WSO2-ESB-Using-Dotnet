@@ -4,6 +4,9 @@ using FastFoodOnline.Models;
 
 namespace FastFoodOnline.Core.DataAccess.Repositories
 {
+    /// <summary>
+    /// Authorization related data - Interface
+    /// </summary>
     public interface IAuthorizationRepository : IBaseRepository
     {
         /// <summary>

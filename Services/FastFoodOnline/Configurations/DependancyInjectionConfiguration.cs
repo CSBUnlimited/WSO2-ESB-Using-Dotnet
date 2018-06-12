@@ -48,7 +48,7 @@ namespace FastFoodOnline.Configurations
 
             #region Service - Dependencies
 
-            services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IFoodService, FoodService>();
             services.AddScoped<IPaymentMethodService, PaymentMethodService>();
             services.AddScoped<IPaymentService, PaymentService>();

@@ -5,6 +5,9 @@ using FastFoodOnline.Models;
 
 namespace FastFoodOnline.Core.DataAccess.Repositories
 {
+    /// <summary>
+    /// Sent Messages related data - Interface
+    /// </summary>
     public interface ISentMessageRepository : IBaseRepository
     {
         /// <summary>
